@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">FuriganIt</string>
+    <string name="service_status">Service status:</string>
+    <string name="enabled">Enabled</string>
+    <string name="disabled">Disabled</string>
+    <string name="enable_service">Enable service</string>
+    <string name="disable_service">Disable service</string>
+</resources>
