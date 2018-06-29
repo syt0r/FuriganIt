@@ -5,8 +5,11 @@
     android:layout_height="wrap_content">
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Click"/>
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/button"
+        android:background="@drawable/circle"
+        android:textColor="#fff"
+        android:text="FuriganIt"/>
 
 </LinearLayout>

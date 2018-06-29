@@ -22,7 +22,11 @@
         <service
             android:name=".FuriganaService"
             android:enabled="true"
-            android:exported="false"></service>
+            android:exported="false" />
+
+        <activity android:name=".FuriganizedActivity"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:launchMode="singleInstance"/>
     </application>
 
 </manifest>

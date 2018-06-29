@@ -4,7 +4,7 @@ import android.util.Log;
 
 import java.util.List;
 
-public class KuromojiHelper {
+public class Utils {
 
     public static boolean isKana(char c) {
         return (isHiragana(c) || isKatakana(c));
@@ -51,21 +51,33 @@ public class KuromojiHelper {
             stringBuilder.append(toHiragana(c));
         return stringBuilder.toString();
     }
-    /*
-    static String getFurigana(String input){
-        Tokenizer tokenizer = new Tokenizer();
-        StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append("<ruby>");
-        List<Token> tokens = tokenizer.tokenize(input);
-        for (Token token : tokens){
-            Log.wtf("sytor",token.getAllFeatures());
-            stringBuffer.append("<rb>").append(token.getSurface()).append("</rb><rt>");
-            if (isKanji(token.getSurface().charAt(0)))
-                stringBuffer.append(stringToHiragana(token.getReading()));
-            stringBuffer.append("</rt>");
+
+    public static String removeFurigana(String str){
+        return str.replaceAll("(?s)<rt[^>]*>.*?</rt>","")
+                .replaceAll("[(<ruby>)(</ruby>)(<rb>)(</rb>)]","");
+    }
+
+    public static String getReading(String str){
+        str = str.replaceAll("[(<ruby>)(</ruby>)]","");
+        String result = "";
+        int rbBeginIndex = 0 , rbEndIndex = 0, rtBeginIndex = 0, rtEndIndex = -1;
+
+        while (rbBeginIndex!=-1){
+
+            rbBeginIndex = str.indexOf("<rb>",rtEndIndex);
+            rbEndIndex = str.indexOf("</rb>",rbBeginIndex);
+            rtBeginIndex = str.indexOf("<rt>",rbEndIndex);
+            rtEndIndex = str.indexOf("</rt>",rtBeginIndex);
+
+            if(rtEndIndex-rtBeginIndex<5)
+                result+=str.substring(rbBeginIndex+4,rbEndIndex);
+            else
+                result+=str.substring(rtBeginIndex+4,rtEndIndex);
+
         }
-        stringBuffer.append("</ruby>");
-        return stringBuffer.toString();
-    }*/
+
+        return result;
+
+    }
 
 }

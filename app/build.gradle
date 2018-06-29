@@ -16,10 +16,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    packagingOptions {
+        exclude 'META-INF/CONTRIBUTORS.md'
+        exclude 'META-INF/LICENSE.md'
+    }
 }
 
 dependencies {
+    compile files('libs/kuromoji-core-0.9.0.jar')
+    compile files('libs/kuromoji-ipadic-0.9.0.jar')
     compile 'com.android.support:appcompat-v7:26.+'
-    //compile files('libs/kuromoji-core-0.9.0.jar')
-    //compile files('libs/kuromoji-ipadic-0.9.0.jar')
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }
