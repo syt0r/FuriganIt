@@ -15,7 +15,8 @@ public class FuriganizedActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.activity_start,R.anim.activity_finish);
 
         String data = getIntent().getStringExtra("data");
-        ((WebView)findViewById(R.id.webview)).loadData(data,"text/html","utf-8");
+        WebView webView = (WebView)findViewById(R.id.webview);
+        webView.loadData(data,"text/html; charset=utf-8", "utf-8");
     }
 
     public void Click(View v){

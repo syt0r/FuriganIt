@@ -7,7 +7,9 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.Build;
 import android.os.CountDownTimer;
@@ -50,6 +52,10 @@ public class FuriganaService extends Service {
     //Sends callback into activity
     private LocalBroadcastManager localBroadcastManager;
 
+    //Position of floating window
+    private int xPos, yPos;
+
+    private long timeout;
 
     @Override
     public void onCreate() {
@@ -57,39 +63,53 @@ public class FuriganaService extends Service {
 
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
 
-        tokenizer = new Tokenizer();
 
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
         clipboardListener = new ClipboardListener();
         clipboardManager.addPrimaryClipChangedListener(clipboardListener);
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher_round)
-                .setContentTitle("FuriganIt")
-                .setContentText("Service is running").setOngoing(true)
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.drawable.ic_stat_ik)
+                .setContentTitle(getResources().getString(R.string.app_name))
+                .setContentText(getResources().getString(R.string.service_is_running)).setOngoing(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         Intent stopServiceIntent = new Intent(this, FuriganaService.class);
         stopServiceIntent.setAction(SERVICE_STOP);
         PendingIntent pendingIntent = PendingIntent.getService(this, 0, stopServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.addAction(R.mipmap.ic_launcher_round,"Stop",pendingIntent);
+        builder.addAction(R.drawable.ic_stat_ik, getResources().getString(R.string.stop), pendingIntent);
 
-        Notification notification = builder.build();
-        startForeground(NOTIFICATION_ID,notification);
 
-        Intent intent = new Intent();
-        intent.setAction(START_ACTION);
-        localBroadcastManager.sendBroadcast(intent);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-        isRunning = true;
+                SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
+                xPos = sharedPreferences.getInt("xPos",0);
+                yPos = sharedPreferences.getInt("yPos",0);
+                timeout = sharedPreferences.getLong("timeout",5);
+
+                tokenizer = new Tokenizer();
+
+                startForeground(NOTIFICATION_ID, builder.build());
+
+                Intent intent = new Intent();
+                intent.setAction(START_ACTION);
+                localBroadcastManager.sendBroadcast(intent);
+
+                isRunning = true;
+            }
+        }).start();
+
+
 
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if (intent.getAction() != null && intent.getAction().equals(SERVICE_STOP)){
+        if (intent != null && intent.getAction() != null && intent.getAction().equals(SERVICE_STOP)){
             stopSelf();
             Log.wtf("test","stop");
         }
@@ -115,6 +135,10 @@ public class FuriganaService extends Service {
 
         if (clipboardManager!=null)
             clipboardManager.removePrimaryClipChangedListener(clipboardListener);
+
+        //Save data
+        SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
+        sharedPreferences.edit().putInt("xPos",xPos).putInt("yPos",yPos).apply();
 
         Intent intent = new Intent();
         intent.setAction(STOP_ACTION);
@@ -144,7 +168,7 @@ public class FuriganaService extends Service {
             CharSequence data = clip.getItemAt(0).getText();
             List<Token> tokens;
             final StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("<ruby>");
+            stringBuilder.append("<ruby style=\"font-size:8vw;\">");
             if (data != null){
                 tokens = tokenizer.tokenize(data.toString());
                 for (Token token : tokens){
@@ -155,7 +179,7 @@ public class FuriganaService extends Service {
                 }
             }
             else
-                stringBuilder.append("Not supported data copied");
+                stringBuilder.append(getResources().getString(R.string.copied_data_not_supported));
             stringBuilder.append("</ruby>");
 
             Log.wtf("test",stringBuilder.toString());
@@ -175,10 +199,13 @@ public class FuriganaService extends Service {
                     WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN | WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE ,
                     PixelFormat.TRANSLUCENT);
 
+            params.x = xPos;
+            params.y = yPos;
+
             windowManager.addView(view, params);
 
             //Button on touch timeout
-            CountDownTimer countDownTimer = new CountDownTimer(5*1000,1000) {
+            CountDownTimer countDownTimer = new CountDownTimer(timeout*1000,1000) {
                 @Override
                 public void onTick(long l) {}
 
@@ -193,7 +220,7 @@ public class FuriganaService extends Service {
             countDownTimer.start();
 
             GestureDetectorCompat gestureDetectorCompat = new GestureDetectorCompat(FuriganaService.this, new SingleTapConfirm());
-            ((Button)view.findViewById(R.id.button)).setOnTouchListener(new CustomTouchListener(view,params,stringBuilder,gestureDetectorCompat, countDownTimer));
+            (view.findViewById(R.id.button)).setOnTouchListener(new CustomTouchListener(view,params,stringBuilder,gestureDetectorCompat, countDownTimer));
 
         }
     }
@@ -224,6 +251,7 @@ public class FuriganaService extends Service {
             //If clicked
             if (gestureDetectorCompat.onTouchEvent(motionEvent)){
                 Intent intent = new Intent(FuriganaService.this, FuriganizedActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("data",stringBuilder.toString());
                 startActivity(intent);
                 synchronized (view){
@@ -248,6 +276,8 @@ public class FuriganaService extends Service {
                 case MotionEvent.ACTION_MOVE:
                     params.x = initialX + (int) (motionEvent.getRawX() - initialTouchX);
                     params.y = initialY + (int) (motionEvent.getRawY() - initialTouchY);
+                    xPos = params.x;
+                    yPos = params.y;
                     windowManager.updateViewLayout(view, params);
                     resetTimer();
                     return true;

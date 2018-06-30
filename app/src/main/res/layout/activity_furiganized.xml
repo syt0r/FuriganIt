@@ -6,17 +6,30 @@
     android:padding="50dp"
     tools:context="ua.syt0r.furiganit.FuriganizedActivity">
 
-    <WebView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:id="@+id/webview"/>
-
-    <Button
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/webview"
-        android:layout_alignRight="@+id/webview"
-        android:text="Cancel"
-        android:onClick="Click"/>
+        android:orientation="vertical"
+        android:background="#1976D2"
+        android:padding="5dp">
+
+        <WebView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:id="@+id/webview"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            android:layout_gravity="end"
+            android:background="@android:color/transparent"
+            android:textColor="#fff"
+            android:onClick="Click"/>
+
+
+    </LinearLayout>
+
+
 
 </RelativeLayout>
