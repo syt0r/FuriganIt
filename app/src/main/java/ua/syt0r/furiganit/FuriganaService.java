@@ -94,11 +94,12 @@ public class FuriganaService extends Service {
 
                 startForeground(NOTIFICATION_ID, builder.build());
 
+                isRunning = true;
+
                 Intent intent = new Intent();
                 intent.setAction(START_ACTION);
                 localBroadcastManager.sendBroadcast(intent);
 
-                isRunning = true;
             }
         }).start();
 
@@ -140,11 +141,12 @@ public class FuriganaService extends Service {
         SharedPreferences sharedPreferences = getSharedPreferences("data", Context.MODE_PRIVATE);
         sharedPreferences.edit().putInt("xPos",xPos).putInt("yPos",yPos).apply();
 
+        isRunning = false;
+
         Intent intent = new Intent();
         intent.setAction(STOP_ACTION);
         localBroadcastManager.sendBroadcast(intent);
 
-        isRunning = false;
     }
 
     @Override

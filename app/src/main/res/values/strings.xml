@@ -1,10 +1,5 @@
 <resources>
     <string name="app_name">FuriganIt</string>
-    <string name="service_status">Service status:</string>
-    <string name="enabled">Enabled</string>
-    <string name="disabled">Disabled</string>
-    <string name="enable_service">Enable service</string>
-    <string name="disable_service">Disable service</string>
     <string name="go_to_settings">Go to Settings</string>
     <string name="got_to_sett_hint">To use application allow app to draw on top of others</string>
     <string name="stop">Stop</string>

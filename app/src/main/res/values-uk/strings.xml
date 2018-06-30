@@ -16,7 +16,6 @@
     <string name="reset_popup_position">Повернути позицію спливачого вікна до початкової позиції</string>
     <string name="save">Зберегти</string>
     <string name="service_is_running">Сервіс запущено</string>
-    <string name="service_status">Стан сервіса:</string>
     <string name="start">Старт</string>
     <string name="stop">Стоп</string>
     <string name="stop_hint">Зупинити сервіс</string>
@@ -24,10 +23,6 @@
     <string name="support_dev">Підтримай розробника</string>
     <string name="thanks">Дякую за підтримку</string>
     <string name="wait">Зачекайте будь ласка</string>
-    <string name="enabled">ввімкнено</string>
-    <string name="enable_service">ввімкнути сервіс</string>
-    <string name="disabled">Вимкнено</string>
-    <string name="disable_service">Вимкнути сервіс</string>
     <string name="about">Про додаток</string>
     <string name="settings">Налаштування</string>
 </resources>
