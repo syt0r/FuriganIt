@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    compileSdkVersion 27
+    buildToolsVersion "27.0.3"
     defaultConfig {
         applicationId "ua.syt0r.furiganit"
         minSdkVersion 14
-        targetSdkVersion 26
-        versionCode 2
-        versionName "1.0"
+        targetSdkVersion 27
+        versionCode 4
+        versionName "1.1.1"
     }
     buildTypes {
         release {
@@ -23,8 +23,8 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:26.+'
-    compile 'com.anjlab.android.iab.v3:library:1.0.44'
-    compile files('libs/kuromoji-core-1.0-SNAPSHOT.jar')
-    compile files('libs/kuromoji-ipadic-1.0-SNAPSHOT.jar')
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.anjlab.android.iab.v3:library:1.0.44'
+    implementation files('libs/kuromoji-core-1.0-SNAPSHOT.jar')
+    implementation files('libs/kuromoji-ipadic-1.0-SNAPSHOT.jar')
 }

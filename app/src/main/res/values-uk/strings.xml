@@ -25,4 +25,5 @@
     <string name="wait">Зачекайте будь ласка</string>
     <string name="about">Про додаток</string>
     <string name="settings">Налаштування</string>
+    <string name="no_memory">Недостатньо пам\'яті для завантаження словника</string>
 </resources>

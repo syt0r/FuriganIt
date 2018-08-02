@@ -31,8 +31,7 @@ import static android.view.View.GONE;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String LICENSE_KEY = "";
-    private static final String PRODUCT_ID = "";
+    private static final String PRODUCT_ID = "ua.syt0r.furiganit.support_item";
 
     private TextView textView;
     private Button button;
@@ -57,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setElevation(0);
         }catch (NullPointerException e){}
 
-        button = (Button)findViewById(R.id.button);
-        textView = (TextView)findViewById(R.id.text);
+        button = findViewById(R.id.button);
+        textView = findViewById(R.id.text);
 
         checkPermission();
 
@@ -68,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
         isBillingAvailable = BillingProcessor.isIabServiceAvailable(this);
         isBillingReady = false;
         if (isBillingAvailable){
-            billingProcessor = new BillingProcessor(this, LICENSE_KEY, new BillingHandler());
+            billingProcessor = new BillingProcessor(this, getString(R.string.license_key),
+                    new BillingHandler());
             //billingProcessor.initialize();
         }
 

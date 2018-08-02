@@ -25,4 +25,5 @@
     <string name="support_dev">Поддержи разработчика</string>
     <string name="thanks">Спасибо за поддержку</string>
     <string name="wait">Пожалуйста, подождите</string>
+    <string name="no_memory">Недостаточно памяти для загрузки словаря</string>
 </resources>

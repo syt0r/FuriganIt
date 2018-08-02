@@ -24,4 +24,5 @@
     <string name="bill_error">Billing error occurred</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
+    <string name="no_memory">Not enough memory to load dictionary</string>
 </resources>

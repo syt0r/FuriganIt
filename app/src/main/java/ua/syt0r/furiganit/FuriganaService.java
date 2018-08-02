@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.atilika.kuromoji.ipadic.Token;
 import com.atilika.kuromoji.ipadic.Tokenizer;
@@ -69,7 +70,7 @@ public class FuriganaService extends Service {
         clipboardListener = new ClipboardListener();
         clipboardManager.addPrimaryClipChangedListener(clipboardListener);
 
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"furigan_it_channel_id")
                 .setSmallIcon(R.drawable.ic_stat_ik)
                 .setContentTitle(getResources().getString(R.string.app_name))
                 .setContentText(getResources().getString(R.string.service_is_running)).setOngoing(true)
@@ -89,8 +90,12 @@ public class FuriganaService extends Service {
                 xPos = sharedPreferences.getInt("xPos",0);
                 yPos = sharedPreferences.getInt("yPos",0);
                 timeout = sharedPreferences.getLong("timeout",5);
-
-                tokenizer = new Tokenizer();
+                try {
+                    tokenizer = new Tokenizer();
+                }catch (OutOfMemoryError e){
+                    Toast.makeText(getApplicationContext(),R.string.no_memory,Toast.LENGTH_LONG).show();
+                    stopSelf();
+                }
 
                 startForeground(NOTIFICATION_ID, builder.build());
 
@@ -164,15 +169,13 @@ public class FuriganaService extends Service {
             //Show button for furiginize text
             final View view = ((LayoutInflater)getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.dialog_ask,null);
 
-            //final WebView view = new WebView(FuriganaService.this);
-
             ClipData clip = clipboardManager.getPrimaryClip();
             CharSequence data = clip.getItemAt(0).getText();
             List<Token> tokens;
             final StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("<ruby style=\"font-size:8vw;\">");
             if (data != null){
-                tokens = tokenizer.tokenize(data.toString());
+                tokens = tokenizer.tokenize(String.valueOf(data));
                 for (Token token : tokens){
                     stringBuilder.append("<rb>").append(token.getSurface()).append("</rb><rt>");
                     if (Utils.isKanji(token.getSurface().charAt(0)))
