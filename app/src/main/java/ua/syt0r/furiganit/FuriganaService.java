@@ -1,10 +1,10 @@
 package ua.syt0r.furiganit;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -15,7 +15,6 @@ import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.annotation.IntDef;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GestureDetectorCompat;
@@ -25,8 +24,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.webkit.WebView;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.atilika.kuromoji.ipadic.Token;
@@ -70,11 +67,22 @@ public class FuriganaService extends Service {
         clipboardListener = new ClipboardListener();
         clipboardManager.addPrimaryClipChangedListener(clipboardListener);
 
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"furigan_it_channel_id")
+        final String CHANNEL_ID = "ua.syt0r.furigan_it";
+        final String CHANNEL_NAME = "FuriganIt Service";
+
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(this,CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_stat_ik)
                 .setContentTitle(getResources().getString(R.string.app_name))
                 .setContentText(getResources().getString(R.string.service_is_running)).setOngoing(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_NONE);
+            channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            if (manager != null)
+                manager.createNotificationChannel(channel);
+        }
 
         Intent stopServiceIntent = new Intent(this, FuriganaService.class);
         stopServiceIntent.setAction(SERVICE_STOP);

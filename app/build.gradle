@@ -7,8 +7,8 @@ android {
         applicationId "ua.syt0r.furiganit"
         minSdkVersion 14
         targetSdkVersion 27
-        versionCode 4
-        versionName "1.1.1"
+        versionCode 5
+        versionName "1.1.2"
     }
     buildTypes {
         release {
