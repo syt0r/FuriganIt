@@ -1,30 +1,66 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+
     defaultConfig {
         applicationId "ua.syt0r.furiganit"
-        minSdkVersion 14
-        targetSdkVersion 27
+        minSdkVersion 16
+        targetSdkVersion 29
         versionCode 5
-        versionName "1.1.2"
+        versionName "1.2"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     packagingOptions {
         exclude 'META-INF/CONTRIBUTORS.md'
         exclude 'META-INF/LICENSE.md'
     }
+
+    def isRunningOnTravis = System.getenv("CI") == "true"
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    if (isRunningOnTravis) {
+        signingConfigs.release.storeFile = file("key_store.jks")
+        signingConfigs.release.storePassword = System.getenv("keystore_password")
+        signingConfigs.release.keyAlias = System.getenv("keystore_alias")
+        signingConfigs.release.keyPassword = System.getenv("keystore_alias_password")
+    }
+
 }
 
 dependencies {
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.anjlab.android.iab.v3:library:1.0.44'
+
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
+    implementation "androidx.navigation:navigation-fragment:2.2.0-alpha01"
+    implementation "androidx.navigation:navigation-ui:2.2.0-alpha01"
+
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.12'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+
+    implementation "androidx.room:room-runtime:2.2.0-beta01"
+    annotationProcessor "androidx.room:room-compiler:2.2.0-beta01"
+    implementation "androidx.room:room-rxjava2:2.2.0-beta01"
+
+    implementation 'com.google.firebase:firebase-analytics:17.1.0'
+    implementation 'com.google.firebase:firebase-auth:19.0.0'
+    implementation 'com.google.firebase:firebase-firestore:21.0.0'
+
     implementation files('libs/kuromoji-core-1.0-SNAPSHOT.jar')
     implementation files('libs/kuromoji-ipadic-1.0-SNAPSHOT.jar')
+
+    implementation 'com.anjlab.android.iab.v3:library:1.0.44'
+
 }

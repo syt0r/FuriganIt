@@ -15,9 +15,9 @@ import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.view.GestureDetectorCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.core.view.GestureDetectorCompat;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -30,6 +30,8 @@ import com.atilika.kuromoji.ipadic.Token;
 import com.atilika.kuromoji.ipadic.Tokenizer;
 
 import java.util.List;
+
+import ua.syt0r.furiganit.ui.furigana.FuriganaActivity;
 
 public class FuriganaService extends Service {
 
@@ -60,7 +62,6 @@ public class FuriganaService extends Service {
         super.onCreate();
 
         localBroadcastManager = LocalBroadcastManager.getInstance(this);
-
 
         windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
@@ -263,7 +264,7 @@ public class FuriganaService extends Service {
         public boolean onTouch(View v, MotionEvent motionEvent) {
             //If clicked
             if (gestureDetectorCompat.onTouchEvent(motionEvent)){
-                Intent intent = new Intent(FuriganaService.this, FuriganizedActivity.class);
+                Intent intent = new Intent(FuriganaService.this, FuriganaActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra("data",stringBuilder.toString());
                 startActivity(intent);

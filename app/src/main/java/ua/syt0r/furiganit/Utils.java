@@ -1,9 +1,5 @@
 package ua.syt0r.furiganit;
 
-import android.util.Log;
-
-import java.util.List;
-
 public class Utils {
 
     public static boolean isKana(char c) {

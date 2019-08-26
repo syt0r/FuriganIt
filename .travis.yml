@@ -1,0 +1,21 @@
+language: android
+
+android:
+  components:
+  - build-tools-29.0.2
+  - android-29
+
+before_install:
+  - openssl TODO
+
+script:
+  - ./gradlew build
+
+deploy:
+  provider: releases
+  api_key:
+    secure: YOUR_API_KEY_ENCRYPTED
+  file: "FILE TO UPLOAD"
+  skip_cleanup: true
+  on:
+    tags: true
