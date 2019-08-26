@@ -1,9 +1,7 @@
 package ua.syt0r.furiganit.ui.service;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -16,37 +14,34 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import ua.syt0r.furiganit.FuriganaService;
+import androidx.lifecycle.ViewModelProviders;
+import ua.syt0r.furiganit.model.repository.status.ServiceStatus;
+import ua.syt0r.furiganit.service.FuriganaService;
 import ua.syt0r.furiganit.R;
+import ua.syt0r.furiganit.viewmodel.service.ServiceManagerViewModel;
 
 public class ServiceManagerFragment extends Fragment {
+
+    private ServiceManagerViewModel viewModel;
 
     private TextView textView;
     private Button button;
 
     private boolean canDrawOverlays;
-
-    private LocalBroadcastManager localBroadcastManager;
-    private BroadcastReceiver broadcastReceiver;
     //prevent from attempt to press button while loading
     private boolean isLoading;
 
     @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        localBroadcastManager = LocalBroadcastManager.getInstance(context);
-        broadcastReceiver = new ServiceListener();
-
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        viewModel = ViewModelProviders.of(this).get(ServiceManagerViewModel.class);
         isLoading = false;
-
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_history, container, false);
+        View root = inflater.inflate(R.layout.fragment_service_manager, container, false);
         button = root.findViewById(R.id.button);
         textView = root.findViewById(R.id.text);
 
@@ -73,30 +68,20 @@ public class ServiceManagerFragment extends Fragment {
 
             Intent intent = new Intent(getContext(), FuriganaService.class);
 
-            if (!FuriganaService.isRunning)
-                getContext().startService(intent);
+            if (viewModel.subscribeOnServiceStatus().getValue() == ServiceStatus.STOPPED)
+                root.getContext().startService(intent);
             else
-                getContext().stopService(intent);
+                root.getContext().stopService(intent);
 
         });
 
-        return super.onCreateView(inflater, container, savedInstanceState);
+        return root;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(FuriganaService.START_ACTION);
-        intentFilter.addAction(FuriganaService.STOP_ACTION);
-        localBroadcastManager.registerReceiver(broadcastReceiver, intentFilter);
         updateText();
-    }
-
-    @Override
-    public void onPause() {
-        localBroadcastManager.unregisterReceiver(broadcastReceiver);
-        super.onPause();
     }
 
     private void checkPermission(){
@@ -116,15 +101,20 @@ public class ServiceManagerFragment extends Fragment {
             button.setText(R.string.go_to_settings);
             textView.setText(R.string.got_to_sett_hint);
 
-        }else if (FuriganaService.isRunning){
+        } else {
 
-            button.setText(R.string.stop);
-            textView.setText(R.string.stop_hint);
-
-        }else{
-
-            button.setText(R.string.start);
-            textView.setText(R.string.start_hint);
+            ServiceStatus serviceStatus = viewModel.subscribeOnServiceStatus().getValue();
+            if (serviceStatus != null)
+                switch (serviceStatus) {
+                    case STOPPED:
+                        button.setText(R.string.start);
+                        textView.setText(R.string.start_hint);
+                        break;
+                    case LAUNCHING:
+                    case RUNNING:
+                        button.setText(R.string.stop);
+                        textView.setText(R.string.stop_hint);
+                }
 
         }
 
@@ -134,23 +124,6 @@ public class ServiceManagerFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         checkPermission();
-    }
-
-    private class ServiceListener extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            switch (intent.getAction()) {
-                case FuriganaService.START_ACTION:
-                case FuriganaService.STOP_ACTION:
-                    isLoading = false;
-                    updateText();
-                    break;
-            }
-
-        }
-
     }
 
 }

@@ -8,15 +8,24 @@ import ua.syt0r.furiganit.R;
 
 public class FuriganaActivity extends AppCompatActivity {
 
+    public static final String TEXT_EXTRA_FIELD = "text";
+    public static final String FURIGANA_EXTRA_FIELD = "furigana";
+
+    public static final String ERROR_EXTRA_FIELD = "error";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_furigana);
         overridePendingTransition(R.anim.activity_start,R.anim.activity_finish);
 
-        String data = getIntent().getStringExtra("data");
+        String text = getIntent().getStringExtra(TEXT_EXTRA_FIELD);
+        String furigana = getIntent().getStringExtra(FURIGANA_EXTRA_FIELD);
+
+        String error = getIntent().getStringExtra(ERROR_EXTRA_FIELD);
+
         WebView webView = findViewById(R.id.webview);
-        webView.loadData(data,"text/html; charset=utf-8", "utf-8");
+        webView.loadData(furigana,"text/html; charset=utf-8", "utf-8");
     }
 
     public void Click(View v){

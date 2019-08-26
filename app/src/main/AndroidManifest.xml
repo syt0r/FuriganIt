@@ -20,13 +20,14 @@
         </activity>
 
         <service
-            android:name=".FuriganaService"
+            android:name=".service.FuriganaService"
             android:enabled="true"
             android:exported="false" />
 
         <activity android:name=".ui.furigana.FuriganaActivity"
             android:theme="@style/Theme.AppCompat.Translucent"
-            android:launchMode="singleInstance"/>
+            android:launchMode="singleTask"
+            android:excludeFromRecents="true"/>
 
     </application>
 
