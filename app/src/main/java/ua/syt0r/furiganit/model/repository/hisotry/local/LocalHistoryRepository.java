@@ -3,6 +3,7 @@ package ua.syt0r.furiganit.model.repository.hisotry.local;
 import android.content.Context;
 import androidx.room.Room;
 import java.util.List;
+
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import ua.syt0r.furiganit.model.db.HistoryDao;
@@ -27,17 +28,23 @@ public class LocalHistoryRepository implements HistoryRepository {
 
     @Override
     public Completable add(HistoryItem historyItem) {
-        return historyDao.add(historyItem);
+        return Completable.create(emitter -> {
+            historyDao.add(historyItem);
+            emitter.onComplete();
+        });
     }
 
     @Override
     public Completable remove(HistoryItem historyItem) {
-        return historyDao.remove(historyItem);
+        return Completable.create(emitter -> {
+            historyDao.remove(historyItem);
+            emitter.onComplete();
+        });
     }
 
     @Override
     public Single<List<HistoryItem>> fetchHistory() {
-        return historyDao.fetchHistory();
+        return Single.create(emitter -> emitter.onSuccess(historyDao.fetchHistory()));
     }
 
 }

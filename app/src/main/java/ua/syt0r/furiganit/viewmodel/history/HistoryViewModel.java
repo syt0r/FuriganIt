@@ -1,12 +1,12 @@
 package ua.syt0r.furiganit.viewmodel.history;
 
-import android.content.Context;
-
+import android.app.Application;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 import java.util.List;
 
+import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -17,49 +17,60 @@ import ua.syt0r.furiganit.model.repository.hisotry.firestore.FirestoreHistoryRep
 import ua.syt0r.furiganit.model.repository.hisotry.local.LocalHistoryRepository;
 import ua.syt0r.furiganit.model.repository.user.UserRepository;
 
-public class HistoryViewModel extends ViewModel {
+public class HistoryViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<HistoryItem>> mutableHistory = new MutableLiveData<>();
+
     private MutableLiveData<Throwable> mutableError = new MutableLiveData<>();
     private MutableLiveData<Boolean> shouldAskSignIn = new MutableLiveData<>();
 
     private UserRepository userRepository;
-    private HistoryRepository historyRepository;
+    private HistoryRepository localHistoryRepository;
+    private HistoryRepository remoteHistoryRepository;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public void init(Context context) {
+    public HistoryViewModel(Application application) {
+        super(application);
 
-        setUserRepository(new UserRepository());
+        userRepository = new UserRepository();
+        localHistoryRepository = new LocalHistoryRepository(application);
 
-        if (userRepository.isLogged()) {
-            setHistoryRepository(new FirestoreHistoryRepository());
-            shouldAskSignIn.setValue(false);
-        } else {
-            setHistoryRepository(new LocalHistoryRepository(context));
-            shouldAskSignIn.setValue(true);
+        if (userRepository.isLogged())
+            remoteHistoryRepository = new FirestoreHistoryRepository();
+
+    }
+
+    public void removeItems(int position) {
+
+        List<HistoryItem> history = mutableHistory.getValue();
+        if (history != null) {
+
+            HistoryItem item = history.get(position);
+
+            Disposable disposable = localHistoryRepository.remove(item)
+                    .andThen(remoteHistoryRepository != null ?
+                            remoteHistoryRepository.remove(item) : Completable.complete())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            () -> {
+
+                            },
+                            error -> {
+
+                            });
+
+            compositeDisposable.add(disposable);
         }
 
     }
 
-    public void fetchHistory() {
-
-        mutableHistory.setValue(null);
-        mutableError.setValue(null);
-
-        Disposable disposable = historyRepository.fetchHistory()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        data -> mutableHistory.setValue(data),
-                        error -> mutableError.setValue(error)
-                );
-
-        compositeDisposable.add(disposable);
+    public void loadHistory() {
 
     }
 
-    public void removeItemAtPos(int position) {
+    public void syncHistory() {
 
     }
 
@@ -75,17 +86,4 @@ public class HistoryViewModel extends ViewModel {
         return mutableError;
     }
 
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        compositeDisposable.dispose();
-    }
-
-    public void setHistoryRepository(HistoryRepository historyRepository) {
-        this.historyRepository = historyRepository;
-    }
-
-    public void setUserRepository(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<PreferenceCategory
+		app:title="@string/appearance">
+
+		<SeekBarPreference
+			app:key="timeout"
+			app:title="Overlay disappear time (sec.)"
+			app:showSeekBarValue="true"
+			app:defaultValue="5"
+			app:min="1"
+			android:max="10"/>
+
+		<Preference
+			app:key="123"
+			app:title="Reset overlay position"/>
+
+	</PreferenceCategory>
+
+	<PreferenceCategory
+		app:title="@string/account">
+
+		<Preference
+			app:title="Sign In"
+			android:summary="Synchronize history across multiple devices using Google Play account"/>
+
+	</PreferenceCategory>
+
+</PreferenceScreen>

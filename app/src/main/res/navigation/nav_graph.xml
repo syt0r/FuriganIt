@@ -9,16 +9,19 @@
 		android:label="@string/app_name"
 		android:id="@+id/service_manager_fragment"/>
 
-
 	<fragment
 		android:name="ua.syt0r.furiganit.ui.history.HistoryFragment"
 		android:label="@string/history"
 		android:id="@+id/history_fragment"/>
 
-
 	<fragment
 		android:name="ua.syt0r.furiganit.ui.settings.SettingsFragment"
 		android:label="@string/app_name"
 		android:id="@+id/settings_fragment"/>
+
+	<fragment
+		android:name="ua.syt0r.furiganit.ui.about.AboutFragment"
+		android:label="@string/about"
+		android:id="@+id/about_fragment"/>
 
 </navigation>

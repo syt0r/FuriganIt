@@ -1,30 +1,70 @@
 <resources>
     <string name="app_name">FuriganIt</string>
+
+    <!-- Menu  -->
+
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
+
+    <!-- Service Manager Fragment  -->
+
     <string name="go_to_settings">Go to Settings</string>
     <string name="got_to_sett_hint">To use application allow app to draw on top of others</string>
+
     <string name="stop">Stop</string>
     <string name="stop_hint">Stop background service</string>
+
     <string name="start">Start</string>
     <string name="start_hint">Start listen clipboard changes</string>
+
+    <string name="starting">Starting service</string>
+    <string name="starting_hint">Wait a moment until dictionary is fully loaded into memory</string>
+
     <string name="loading">Loading...</string>
+
     <string name="service_is_running">Service is running</string>
-    <string name="copied_data_not_supported">Copied data is not supported</string>
     <string name="cancel">Cancel</string>
     <string name="wait">Please, wait a moment</string>
+
+    <!-- History Fragment  -->
+
+    <string name="history">History</string>
+    <string name="no_content_message">No history yet. Items will appear after you use FuriganIt</string>
+    <string name="sync">Sync</string>
+
+    <!-- Options Fragment  -->
+
+    <string name="appearance">Appearance</string>
+    <string name="account">Account</string>
+
     <string name="save">Save</string>
     <string name="popup_disappear_time">Pop-up window disappear time (seconds)</string>
     <string name="reset_popup_position">Reset pop-up window position</string>
-    <string name="about_title">FuriganIt by syt0r</string>
-    <string name="about_content">Use with cautious (app uses test dictionary Ipadic) \nApp uses libraries: kuromoji-core, kuromoji-ipadic and Android In-App Billing v3 Library\nAbout me: studying at computer science, beginner japanese learner</string>
-    <string name="like_app">Do you like application?</string>
-    <string name="support_dev">Support developer</string>
     <string name="apply_changes">To apply changes restart service</string>
+
+    <!-- About Fragment  -->
+
+    <string name="about_title">FuriganIt by syt0r</string>
+    <string name="about_content">Get kanji reading by copying text in any application, no internet connection required</string>
+
+    <string name="how_to_use">How to use</string>
+    <string name="how_to_use_guide">
+        STEP 1. Start service. Starting require some time because it loads big dictionary into memory. If your device don\'t have enough memory it will cause an error\n\nSTEP 2. Copy any text to get furigana notes. Every time when you copying text floating windows will appear. Click on it to process copied text\n\nSTEP 3. Free resources when you finished by clicking stop button at notification or inside app
+    </string>
+
+    <string name="source_code">Source Code</string>
+    <string name="here">here</string>
+
+    <string name="like_app">Enjoy application?</string>
+    <string name="support_dev">Support developer</string>
+
     <string name="bill_not_ready">Please wait, billing not ready yet</string>
     <string name="thanks">Thanks for support</string>
     <string name="bill_error">Billing error occurred</string>
-    <string name="settings">Settings</string>
-    <string name="about">About</string>
+
+    <!-- Service  -->
+
+    <string name="copied_data_not_supported">Copied data is not supported</string>
     <string name="no_memory">Not enough memory to load dictionary</string>
-    <string name="history">History</string>
-    <string name="no_content_message">No history yet. Items will appear after you use FuriganIt</string>
+
 </resources>

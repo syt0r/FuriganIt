@@ -1,7 +1,9 @@
+
 package ua.syt0r.furiganit.model.repository.hisotry.firestore;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.List;
+
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import ua.syt0r.furiganit.model.entity.HistoryItem;
@@ -44,3 +46,4 @@ public class FirestoreHistoryRepository implements HistoryRepository {
     }
 
 }
+

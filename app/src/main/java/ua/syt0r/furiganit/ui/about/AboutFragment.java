@@ -2,6 +2,7 @@ package ua.syt0r.furiganit.ui.about;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,30 +16,21 @@ import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
 import ua.syt0r.furiganit.R;
 
-public class AboutFragment extends Fragment {
+public class AboutFragment extends Fragment implements BillingProcessor.IBillingHandler {
 
     private static final String PRODUCT_ID = "ua.syt0r.furiganit.support_item";
 
+    private ViewGroup purchaseLayout;
+
     private BillingProcessor billingProcessor;
-    private boolean isBillingAvailable;
-    private boolean isBillingReady;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        isBillingAvailable = BillingProcessor.isIabServiceAvailable(context);
-        isBillingReady = false;
-        if (isBillingAvailable){
-            billingProcessor = new BillingProcessor(context, getString(R.string.license_key),
-                    new BillingHandler());
-            //billingProcessor.initialize();
+        if (BillingProcessor.isIabServiceAvailable(context)) {
+            billingProcessor = new BillingProcessor(context, getString(R.string.license_key),this);
+            billingProcessor.initialize();
         }
 
     }
@@ -46,23 +38,24 @@ public class AboutFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_history, container, false);
+        View root = inflater.inflate(R.layout.fragment_about, container, false);
 
-        Button button = root.findViewById(R.id.button);
+        purchaseLayout = root.findViewById(R.id.purchase_layout);
+        purchaseLayout.setVisibility(View.GONE);
 
-        button.setOnClickListener(view -> {
-
-            //TODO toggle button visibility if billing not available
-
-            if (isBillingReady)
-                billingProcessor.purchase(getActivity(), PRODUCT_ID);
-            else
-                Toast.makeText(getContext(), R.string.bill_not_ready, Toast.LENGTH_SHORT).show();
-
+        root.findViewById(R.id.source_code_button).setOnClickListener(view -> {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://github.com/SYtor/FuriganIt"));
+            startActivity(browserIntent);
         });
+
+        root.findViewById(R.id.support_button)
+                .setOnClickListener(view -> billingProcessor.purchase(getActivity(), PRODUCT_ID));
 
         return root;
     }
+
+    //Billing stuff
 
     @Override
     public void onDestroy() {
@@ -78,28 +71,25 @@ public class AboutFragment extends Fragment {
         }
     }
 
-    private class BillingHandler implements BillingProcessor.IBillingHandler{
+    @Override
+    public void onProductPurchased(String productId, TransactionDetails details) {
+        Toast.makeText(getContext(), R.string.thanks, Toast.LENGTH_LONG).show();
+        billingProcessor.consumePurchase(PRODUCT_ID);
+    }
 
-        @Override
-        public void onProductPurchased(@NonNull String productId, @Nullable TransactionDetails details) {
-            Toast.makeText(getContext(), R.string.thanks, Toast.LENGTH_LONG).show();
-            billingProcessor.consumePurchase(PRODUCT_ID);
-        }
+    @Override
+    public void onPurchaseHistoryRestored() {
 
-        @Override
-        public void onPurchaseHistoryRestored() {
+    }
 
-        }
+    @Override
+    public void onBillingError(int errorCode, Throwable error) {
+        Toast.makeText(getContext(), R.string.bill_error, Toast.LENGTH_SHORT).show();
+    }
 
-        @Override
-        public void onBillingError(int errorCode, @Nullable Throwable error) {
-            Toast.makeText(getContext(), R.string.bill_error, Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onBillingInitialized() {
-            isBillingReady = true;
-        }
+    @Override
+    public void onBillingInitialized() {
+        purchaseLayout.setVisibility(View.VISIBLE);
     }
 
 }

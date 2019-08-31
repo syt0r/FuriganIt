@@ -1,4 +1,4 @@
-package ua.syt0r.furiganit;
+package ua.syt0r.furiganit.utils;
 
 public class Utils {
 

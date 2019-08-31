@@ -3,6 +3,9 @@ package ua.syt0r.furiganit.ui.history;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -25,12 +28,7 @@ public class HistoryFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = ViewModelProviders.of(this).get(HistoryViewModel.class);
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        viewModel.init(context);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -62,7 +60,24 @@ public class HistoryFragment extends Fragment {
             }
         });
 
+        viewModel.loadHistory();
+
         return root;
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.history_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == R.id.sync) {
+            viewModel.syncHistory();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

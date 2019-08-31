@@ -1,7 +1,6 @@
 package ua.syt0r.furiganit.model.repository.hisotry;
 
 import java.util.List;
-
 import io.reactivex.Completable;
 import io.reactivex.Single;
 import ua.syt0r.furiganit.model.entity.HistoryItem;

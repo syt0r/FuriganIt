@@ -7,8 +7,7 @@
 
 	<RelativeLayout
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:background="#1976D2">
+		android:layout_height="wrap_content">
 
 		<FrameLayout
 			android:layout_width="wrap_content"
@@ -17,8 +16,7 @@
 			android:id="@+id/frame"
 			android:background="?selectableItemBackgroundBorderless"
 			android:clickable="true"
-			android:focusable="true"
-			android:onClick="Click">
+			android:focusable="true">
 
 			<Button
 				android:layout_width="200dp"

@@ -33,13 +33,12 @@ public class FuriganaService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        serviceStatusRepository.setStatus(ServiceStatus.LAUNCHING);
-
         notificationManager = new ServiceNotificationManager(this);
         serviceStatusRepository = new ServiceStatusRepository(this);
 
-        clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        serviceStatusRepository.setStatus(ServiceStatus.LAUNCHING);
 
+        clipboardManager = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
         overlayDisplayManager = new OverlayDisplayManager(this, view -> {
 

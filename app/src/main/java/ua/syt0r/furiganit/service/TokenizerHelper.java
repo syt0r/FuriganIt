@@ -3,7 +3,7 @@ package ua.syt0r.furiganit.service;
 import com.atilika.kuromoji.ipadic.Token;
 import com.atilika.kuromoji.ipadic.Tokenizer;
 import java.util.List;
-import ua.syt0r.furiganit.Utils;
+import ua.syt0r.furiganit.utils.Utils;
 
 public class TokenizerHelper {
 
