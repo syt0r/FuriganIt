@@ -4,7 +4,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:padding="50dp"
-	tools:context="ua.syt0r.furiganit.ui.furigana.FuriganaActivity">
+	tools:context=".app.furigana.FuriganaActivity">
 
 	<LinearLayout
 		android:layout_width="match_parent"
