@@ -8,6 +8,7 @@ import androidx.navigation.ui.NavigationUI
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.OnBackPressedCallback
 import ua.syt0r.furiganit.R
 
 class MainActivity : AppCompatActivity() {
@@ -23,19 +24,40 @@ class MainActivity : AppCompatActivity() {
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
 
-        NavigationUI.setupWithNavController(toolbar, navController)
+        NavigationUI.setupActionBarWithNavController(this, navController)
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                navController.popBackStack(R.id.service_manager_fragment, false)
+            }
+        })
 
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.activity_menu, menu)
-        return true
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        navController.navigate(item.itemId)
-        return super.onOptionsItemSelected(item)
+
+        if (item.itemId == android.R.id.home)
+             navController.popBackStack(R.id.service_manager_fragment, false)
+        else if (destinations.contains(item.itemId))
+             navController.navigate(item.itemId)
+
+        return true
+    }
+
+    companion object {
+
+        private val destinations = setOf(
+                R.id.history_fragment,
+                R.id.settings_fragment,
+                R.id.about_fragment
+        )
+
     }
 
 }

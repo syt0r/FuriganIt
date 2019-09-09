@@ -1,24 +1,11 @@
 package ua.syt0r.furiganit.model.repository.user
 
-import com.google.firebase.auth.FirebaseAuth
+import android.service.autofill.UserData
+import io.reactivex.Completable
+import io.reactivex.Single
 
-class UserRepository {
-
-    private val firebaseAuth = FirebaseAuth.getInstance()
-
-    val isLogged: Boolean
-        get() = firebaseAuth.currentUser != null
-
-    fun signIn(listener: OnActivityResultListener) {
-
-    }
-
-    fun signOut() {
-        firebaseAuth.signOut()
-    }
-
-    interface OnActivityResultListener {
-        fun onActivityResult()
-    }
-
+interface UserRepository {
+    fun saveUserData(userData: UserData): Completable
+    fun getUserData(): Single<UserData>
+    fun clearUserData(): Completable
 }

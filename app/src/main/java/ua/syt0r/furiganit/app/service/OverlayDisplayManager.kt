@@ -7,7 +7,7 @@ import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
-
+import android.widget.Button
 import ua.syt0r.furiganit.R
 import ua.syt0r.furiganit.model.repository.overlay.OverlayDataRepository
 
@@ -44,7 +44,7 @@ class OverlayDisplayManager(context: Context, onOverlayClickListener: View.OnCli
         params.x = position.x
         params.y = position.y
 
-        //Button on touch timeout
+        //Overlay view visibility timeout
         val countDownTimer = object : CountDownTimer(overlayDataRepository.timeout * 1000, 1000) {
 
             override fun onTick(l: Long) {}

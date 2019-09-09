@@ -26,8 +26,8 @@ internal class OverlayTouchListener(context: Context, private val windowManager:
 
         //If clicked
         if (gestureDetectorCompat.onTouchEvent(motionEvent)) {
-            countDownTimer!!.cancel()
-            countDownTimer!!.onFinish()
+            countDownTimer?.cancel()
+            countDownTimer?.onFinish()
             view.performClick()
             return true
         }

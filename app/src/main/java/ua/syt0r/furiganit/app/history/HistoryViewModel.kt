@@ -1,77 +1,44 @@
 package ua.syt0r.furiganit.app.history
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-
-import io.reactivex.Completable
+import androidx.lifecycle.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import ua.syt0r.furiganit.model.entity.HistoryItem
-import ua.syt0r.furiganit.model.repository.hisotry.HistoryRepository
-import ua.syt0r.furiganit.model.repository.hisotry.firestore.FirestoreHistoryRepository
+import ua.syt0r.furiganit.model.repository.hisotry.firestore.RemoteHistoryRepository
 import ua.syt0r.furiganit.model.repository.hisotry.local.LocalHistoryRepository
-import ua.syt0r.furiganit.model.repository.user.UserRepository
+import ua.syt0r.furiganit.utils.SingleLiveEvent
 
-class HistoryViewModel(application: Application) : AndroidViewModel(application) {
+class HistoryViewModel(
+        private val localHistoryRepository: LocalHistoryRepository,
+        private val remoteHistoryRepository: RemoteHistoryRepository
+) : ViewModel() {
 
     private val mutableHistory = MutableLiveData<List<HistoryItem>>()
 
-    private val mutableError = MutableLiveData<Throwable>()
+    private val mutableError = SingleLiveEvent<Throwable>()
     private val shouldAskSignIn = MutableLiveData<Boolean>()
-
-    private val userRepository: UserRepository = UserRepository()
-    private val localHistoryRepository: HistoryRepository
-    private var remoteHistoryRepository: HistoryRepository? = null
 
     private val compositeDisposable = CompositeDisposable()
 
-    init {
+    fun fetchHistory() {
 
-        localHistoryRepository = LocalHistoryRepository(application)
+        val disposable = localHistoryRepository.fetchHistory()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { mutableHistory.value = it },
+                        { mutableError.value = it }
+                )
 
-        if (userRepository.isLogged)
-            remoteHistoryRepository = FirestoreHistoryRepository()
-
-    }
-
-    fun removeItems(position: Int) {
-
-        val history = mutableHistory.value
-        if (history != null) {
-
-            val item = history[position]
-
-            val disposable = localHistoryRepository.remove(item)
-                    .andThen(if (remoteHistoryRepository != null)
-                        remoteHistoryRepository!!.remove(item)
-                    else
-                        Completable.complete())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(
-                            {
-
-                            },
-                            { error ->
-
-                            })
-
-            compositeDisposable.add(disposable)
-        }
+        compositeDisposable.add(disposable)
 
     }
 
-    fun loadHistory() {
-
+    fun sync() {
+        remoteHistoryRepository.sync(mutableHistory.value ?: listOf())
     }
 
-    fun syncHistory() {
-
-    }
 
     fun subscribeOnHistory(): LiveData<List<HistoryItem>> {
         return mutableHistory
@@ -83,6 +50,11 @@ class HistoryViewModel(application: Application) : AndroidViewModel(application)
 
     fun subscribeOnError(): LiveData<Throwable> {
         return mutableError
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.dispose()
     }
 
 }

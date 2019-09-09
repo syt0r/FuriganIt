@@ -9,24 +9,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-
+import com.google.android.material.snackbar.Snackbar
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ua.syt0r.furiganit.app.service.FuriganaService
 import ua.syt0r.furiganit.R
 
-/*
-
- */
 class ServiceManagerFragment : Fragment() {
 
-    private lateinit var viewModel: ServiceManagerViewModel
+    private val serviceManagerViewModel: ServiceManagerViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ServiceManagerViewModel::class.java)
+        lifecycle.addObserver(serviceManagerViewModel)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -35,50 +31,50 @@ class ServiceManagerFragment : Fragment() {
         val button = root.findViewById<Button>(R.id.button)
         val textView = root.findViewById<TextView>(R.id.text)
 
-        viewModel.subscribeOnServiceStatus().observe(this, Observer { status ->
+        serviceManagerViewModel.subscribeOnServiceState().observe(this, Observer { status ->
 
             when (status) {
 
-                ServiceManagerViewModel.ServiceManagerStates.CANT_DRAW_OVERLAY -> {
+                ServiceManagerState.CANT_DRAW_OVERLAY -> {
 
                     button.setText(R.string.go_to_settings)
                     textView.setText(R.string.got_to_sett_hint)
 
-                    button.setOnClickListener { view -> requestDrawOverlayPermission() }
+                    button.setOnClickListener { requestDrawOverlayPermission() }
                 }
 
-                ServiceManagerViewModel.ServiceManagerStates.STOPPED -> {
+                ServiceManagerState.STOPPED -> {
 
                     button.setText(R.string.start)
                     textView.setText(R.string.start_hint)
 
-                    button.setOnClickListener { view ->
+                    button.setOnClickListener {
                         val intent = Intent(context, FuriganaService::class.java)
                         root.context.startService(intent)
                     }
                 }
 
-                ServiceManagerViewModel.ServiceManagerStates.LAUNCHING -> {
+                ServiceManagerState.LAUNCHING -> {
 
                     button.setText(R.string.starting)
                     textView.setText(R.string.starting_hint)
 
-                    button.setOnClickListener { view ->
-                        Toast.makeText(context,
-                                "Wait a moment, please", Toast.LENGTH_SHORT).show()
+                    button.setOnClickListener {
+                        Snackbar.make(root,R.string.wait, Snackbar.LENGTH_SHORT).show()
                     }
                 }
 
-                ServiceManagerViewModel.ServiceManagerStates.RUNNING -> {
+                ServiceManagerState.RUNNING -> {
 
                     button.setText(R.string.stop)
                     textView.setText(R.string.stop_hint)
 
-                    button.setOnClickListener { view ->
+                    button.setOnClickListener {
                         val intent = Intent(context, FuriganaService::class.java)
                         root.context.stopService(intent)
                     }
                 }
+
             }
 
         })

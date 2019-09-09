@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import io.reactivex.Flowable
 import ua.syt0r.furiganit.model.entity.HistoryItem
 
 @Dao
@@ -16,6 +17,6 @@ interface HistoryDao {
     fun remove(item: HistoryItem)
 
     @Query("SELECT * FROM historyitem")
-    fun fetchHistory(): List<HistoryItem>
+    fun fetchHistory(): Flowable<List<HistoryItem>>
 
 }

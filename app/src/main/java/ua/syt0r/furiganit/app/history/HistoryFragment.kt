@@ -13,15 +13,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ua.syt0r.furiganit.R
 
 class HistoryFragment : Fragment() {
 
-    private lateinit var viewModel: HistoryViewModel
+    private val historyViewModel: HistoryViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(HistoryViewModel::class.java)
         setHasOptionsMenu(true)
     }
 
@@ -36,7 +36,7 @@ class HistoryFragment : Fragment() {
         val adapter = HistoryAdapter()
         recyclerView.adapter = adapter
 
-        viewModel.subscribeOnHistory().observe(this, Observer { history ->
+        historyViewModel.subscribeOnHistory().observe(this, Observer { history ->
 
             when {
 
@@ -61,19 +61,20 @@ class HistoryFragment : Fragment() {
 
         })
 
-        viewModel.loadHistory()
+        historyViewModel.fetchHistory()
 
         return root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
         inflater.inflate(R.menu.history_menu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         if (item.itemId == R.id.sync) {
-            viewModel.syncHistory()
+            historyViewModel.sync()
             return true
         }
 

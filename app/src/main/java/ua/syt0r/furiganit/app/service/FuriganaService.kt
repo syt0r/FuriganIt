@@ -1,7 +1,6 @@
 package ua.syt0r.furiganit.app.service
 
 import android.app.Service
-import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
@@ -12,15 +11,15 @@ import android.view.View
 import android.widget.Toast
 import com.atilika.kuromoji.ipadic.Tokenizer
 import ua.syt0r.furiganit.R
-import ua.syt0r.furiganit.model.repository.status.ServiceStatus
-import ua.syt0r.furiganit.model.repository.status.ServiceStatusRepository
+import ua.syt0r.furiganit.model.repository.status.ServiceState
+import ua.syt0r.furiganit.model.repository.status.ServiceStateRepository
 import ua.syt0r.furiganit.app.furigana.FuriganaActivity
 import ua.syt0r.furiganit.utils.getTextWithFurigana
 
 class FuriganaService : Service() {
 
     private lateinit var notificationManager: ServiceNotificationManager
-    private lateinit var serviceStatusRepository: ServiceStatusRepository
+    private lateinit var serviceStatusRepository: ServiceStateRepository
 
     private lateinit var overlayDisplayManager: OverlayDisplayManager
 
@@ -33,32 +32,14 @@ class FuriganaService : Service() {
         super.onCreate()
 
         notificationManager = ServiceNotificationManager(this)
-        serviceStatusRepository = ServiceStatusRepository(this)
+        serviceStatusRepository = ServiceStateRepository(this)
 
-        serviceStatusRepository.setStatus(ServiceStatus.LAUNCHING)
+        serviceStatusRepository.setStatus(ServiceState.LAUNCHING)
 
         clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 
         overlayDisplayManager = OverlayDisplayManager(this, View.OnClickListener {
-
-            val intent = Intent(this@FuriganaService, FuriganaActivity::class.java)
-
-            val clip = clipboardManager.primaryClip
-
-            try {
-
-                val data = clip!!.getItemAt(0).text
-                val text = data.toString()
-                val furigana = getTextWithFurigana(tokenizer!!, text)
-                intent.putExtras(FuriganaActivity.getArgs(text, furigana))
-
-            } catch (e: Exception) {
-                e.printStackTrace()
-                intent.putExtras(FuriganaActivity.getArgs(e.toString()))
-            }
-
-            startActivity(intent)
-
+            startFuriganaActivity()
         })
 
         clipboardListener = ClipboardManager.OnPrimaryClipChangedListener {
@@ -76,7 +57,7 @@ class FuriganaService : Service() {
 
                 tokenizer = Tokenizer()
                 startForeground(NOTIFICATION_ID, notificationManager.buildServiceNotification())
-                serviceStatusRepository.setStatus(ServiceStatus.RUNNING)
+                serviceStatusRepository.setStatus(ServiceState.RUNNING)
 
                 clipboardManager.addPrimaryClipChangedListener(clipboardListener)
 
@@ -108,12 +89,35 @@ class FuriganaService : Service() {
         tokenizer = null
 
         clipboardManager.removePrimaryClipChangedListener(clipboardListener)
-        serviceStatusRepository.setStatus(ServiceStatus.STOPPED)
+        serviceStatusRepository.setStatus(ServiceState.STOPPED)
 
     }
 
     override fun onBind(intent: Intent): IBinder? {
         return null
+    }
+
+    private fun startFuriganaActivity() {
+
+        val intent = Intent(this@FuriganaService, FuriganaActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+        val clip = clipboardManager.primaryClip
+
+        try {
+
+            val data = clip!!.getItemAt(0).text
+            val text = data.toString()
+            val furigana = getTextWithFurigana(tokenizer!!, text)
+            intent.putExtras(FuriganaActivity.getArgs(text, furigana))
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            intent.putExtras(FuriganaActivity.getArgs(e.toString()))
+        }
+
+        startActivity(intent)
+
     }
 
     companion object {

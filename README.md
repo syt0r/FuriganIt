@@ -8,12 +8,14 @@ And all of that can be done without internet connection.
 
 FuriganIt use libraries: 
 * kuromoji-core
-* kuromoji-ipadic 
-* Android In-App Billing v3 Library
+* kuromoji-ipadic
 
 ## Screenshots
 
 *TODO*
+![Service Manager](images/service_manager.jpg)
+![Settings](images/settings.jpg)
+![About](images/about.jpg)
 
 ## Build Status
 

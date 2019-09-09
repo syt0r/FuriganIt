@@ -32,7 +32,7 @@
     <string name="no_content_message">No history yet. Items will appear after you use FuriganIt</string>
     <string name="sync">Sync</string>
 
-    <!-- Options Fragment  -->
+    <!-- Settings Fragment  -->
 
     <string name="appearance">Appearance</string>
     <string name="account">Account</string>

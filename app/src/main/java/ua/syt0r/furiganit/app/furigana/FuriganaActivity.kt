@@ -4,9 +4,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebView
+import android.widget.Button
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ua.syt0r.furiganit.R
 
 class FuriganaActivity : AppCompatActivity() {
+
+    private val furiganaViewModel: FuriganaViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,16 +19,23 @@ class FuriganaActivity : AppCompatActivity() {
 
         val text = intent.getStringExtra(TEXT_EXTRA_FIELD)
         val furigana = intent.getStringExtra(FURIGANA_EXTRA_FIELD)
-
         val error = intent.getStringExtra(ERROR_EXTRA_FIELD)
 
-        val webView = findViewById<WebView>(R.id.webview)
-        webView.loadData(furigana, "text/html; charset=utf-8", "utf-8")
-    }
+        val displayData = if (!text.isNullOrBlank() && !furigana.isNullOrBlank()) {
+            furiganaViewModel.saveItemToHistory(text, furigana)
+            furigana
+        } else {
+            error
+        }
 
-    fun Click(v: View) {
-        overridePendingTransition(R.anim.activity_start, R.anim.activity_finish)
-        finish()
+        val webView = findViewById<WebView>(R.id.webview)
+        webView.loadData(displayData, "text/html; charset=utf-8", "utf-8")
+
+        findViewById<Button>(R.id.cancel_button).setOnClickListener {
+            overridePendingTransition(R.anim.activity_start, R.anim.activity_finish)
+            finish()
+        }
+
     }
 
     override fun onBackPressed() {
