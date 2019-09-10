@@ -1,11 +1,11 @@
-package ua.syt0r.furiganit.app.serviceManager.interactor
+package ua.syt0r.furiganit.model.usecase.implementation
 
 import ua.syt0r.furiganit.app.serviceManager.ServiceManagerState
-import ua.syt0r.furiganit.app.serviceManager.useCase.ServiceManagerStateMapperUseCase
+import ua.syt0r.furiganit.model.usecase.ServiceManagerStateMapperUseCase
 import ua.syt0r.furiganit.model.repository.status.ServiceState
 import java.lang.IllegalStateException
 
-class ServiceManagerStateMapperInteractor : ServiceManagerStateMapperUseCase {
+class ServiceManagerStateMapperUseCaseImpl : ServiceManagerStateMapperUseCase {
 
     override fun translate(canDrawOverlay: Boolean, serviceState: ServiceState): ServiceManagerState {
         return when {

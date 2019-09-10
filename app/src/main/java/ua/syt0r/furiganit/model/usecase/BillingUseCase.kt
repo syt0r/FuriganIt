@@ -1,4 +1,4 @@
-package ua.syt0r.furiganit.app.about
+package ua.syt0r.furiganit.model.usecase
 
 import io.reactivex.Completable
 import io.reactivex.Observable

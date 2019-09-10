@@ -7,7 +7,7 @@ import ua.syt0r.furiganit.model.db.HistoryDao
 import ua.syt0r.furiganit.model.db.HistoryDatabase
 import ua.syt0r.furiganit.model.entity.HistoryItem
 
-class RoomHistoryRepository(database: HistoryDatabase) : LocalHistoryRepository {
+class LocalHistoryRepositoryImpl(database: HistoryDatabase) : LocalHistoryRepository {
 
     private val historyDao: HistoryDao = database.historyDao
 

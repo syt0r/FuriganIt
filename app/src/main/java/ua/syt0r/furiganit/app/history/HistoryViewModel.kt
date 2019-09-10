@@ -5,7 +5,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import ua.syt0r.furiganit.model.entity.HistoryItem
-import ua.syt0r.furiganit.model.repository.hisotry.firestore.RemoteHistoryRepository
+import ua.syt0r.furiganit.model.repository.hisotry.remote.RemoteHistoryRepository
 import ua.syt0r.furiganit.model.repository.hisotry.local.LocalHistoryRepository
 import ua.syt0r.furiganit.utils.SingleLiveEvent
 

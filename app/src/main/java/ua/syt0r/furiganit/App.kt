@@ -6,19 +6,19 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import ua.syt0r.furiganit.app.about.AboutViewModel
-import ua.syt0r.furiganit.app.about.BillingInteractor
-import ua.syt0r.furiganit.app.about.BillingUseCase
+import ua.syt0r.furiganit.model.usecase.implementation.BillingUseCaseImpl
+import ua.syt0r.furiganit.model.usecase.BillingUseCase
 import ua.syt0r.furiganit.app.furigana.FuriganaViewModel
 import ua.syt0r.furiganit.app.history.HistoryViewModel
-import ua.syt0r.furiganit.app.serviceManager.interactor.OverlayDrawabilityCheckInteractor
-import ua.syt0r.furiganit.app.serviceManager.useCase.OverlayDrawabilityCheckUseCase
+import ua.syt0r.furiganit.model.usecase.implementation.OverlayDrawabilityCheckUseCaseImpl
+import ua.syt0r.furiganit.model.usecase.OverlayDrawabilityCheckUseCase
 import ua.syt0r.furiganit.app.serviceManager.ServiceManagerViewModel
-import ua.syt0r.furiganit.app.serviceManager.interactor.ServiceManagerStateMapperInteractor
-import ua.syt0r.furiganit.app.serviceManager.useCase.ServiceManagerStateMapperUseCase
+import ua.syt0r.furiganit.model.usecase.implementation.ServiceManagerStateMapperUseCaseImpl
+import ua.syt0r.furiganit.model.usecase.ServiceManagerStateMapperUseCase
 import ua.syt0r.furiganit.model.db.HistoryDatabase
-import ua.syt0r.furiganit.model.repository.hisotry.firestore.FirestoreHistoryRepository
-import ua.syt0r.furiganit.model.repository.hisotry.firestore.RemoteHistoryRepository
-import ua.syt0r.furiganit.model.repository.hisotry.local.RoomHistoryRepository
+import ua.syt0r.furiganit.model.repository.hisotry.remote.RemoteHistoryRepositoryImpl
+import ua.syt0r.furiganit.model.repository.hisotry.remote.RemoteHistoryRepository
+import ua.syt0r.furiganit.model.repository.hisotry.local.LocalHistoryRepositoryImpl
 import ua.syt0r.furiganit.model.repository.overlay.OverlayDataRepository
 import ua.syt0r.furiganit.model.repository.status.ServiceStateRepository
 import ua.syt0r.furiganit.model.repository.user.SharedPreferencesUserRepository
@@ -26,33 +26,32 @@ import ua.syt0r.furiganit.model.repository.user.UserRepository
 
 class App : Application() {
 
-    private val viewModelModule = module {
+    private val repositoryModule = module {
 
-        viewModel { AboutViewModel(get()) }
-        viewModel { HistoryViewModel() }
-        viewModel { ServiceManagerViewModel(get(), get(), get()) }
-        viewModel { FuriganaViewModel(get()) }
+        single { HistoryDatabase.create(get()) }
+
+        factory { OverlayDataRepository(get()) }
+        factory { ServiceStateRepository(get()) }
+        factory { LocalHistoryRepositoryImpl(get()) }
+        factory<UserRepository> { SharedPreferencesUserRepository(get()) }
+        factory<RemoteHistoryRepository> { RemoteHistoryRepositoryImpl(get(), get()) }
 
     }
 
     private val useCaseModule = module {
 
-        factory<BillingUseCase> { BillingInteractor(get()) }
-        factory<OverlayDrawabilityCheckUseCase> { OverlayDrawabilityCheckInteractor(get()) }
-        factory<ServiceManagerStateMapperUseCase> { ServiceManagerStateMapperInteractor() }
+        factory<BillingUseCase> { BillingUseCaseImpl(get()) }
+        factory<OverlayDrawabilityCheckUseCase> { OverlayDrawabilityCheckUseCaseImpl(get()) }
+        factory<ServiceManagerStateMapperUseCase> { ServiceManagerStateMapperUseCaseImpl() }
 
     }
 
-    private val repositoryModule = module {
+    private val viewModelModule = module {
 
-        factory { OverlayDataRepository(get()) }
-        factory { ServiceStateRepository(get()) }
-
-        single { HistoryDatabase.create(get()) }
-        factory { RoomHistoryRepository(get()) }
-
-        factory<UserRepository> { SharedPreferencesUserRepository(get()) }
-        factory<RemoteHistoryRepository> { FirestoreHistoryRepository(get()) }
+        viewModel { AboutViewModel(get()) }
+        viewModel { HistoryViewModel(get(), get()) }
+        viewModel { ServiceManagerViewModel(get(), get(), get()) }
+        viewModel { FuriganaViewModel(get()) }
 
     }
 

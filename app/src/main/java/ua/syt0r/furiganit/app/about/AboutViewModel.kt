@@ -1,12 +1,12 @@
 package ua.syt0r.furiganit.app.about
 
-import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import ua.syt0r.furiganit.model.usecase.BillingUseCase
 import ua.syt0r.furiganit.utils.SingleLiveEvent
 
 class AboutViewModel(private val billingUseCase: BillingUseCase) : ViewModel() {

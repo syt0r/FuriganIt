@@ -1,4 +1,4 @@
-package ua.syt0r.furiganit.app.serviceManager.useCase
+package ua.syt0r.furiganit.model.usecase
 
 import ua.syt0r.furiganit.app.serviceManager.ServiceManagerState
 import ua.syt0r.furiganit.model.repository.status.ServiceState

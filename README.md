@@ -12,10 +12,13 @@ FuriganIt use libraries:
 
 ## Screenshots
 
-*TODO*
 ![Service Manager](images/service_manager.jpg)
 ![Settings](images/settings.jpg)
 ![About](images/about.jpg)
+
+![Overlay](images/overlay.png)
+![Furigana](images/furigana.png)
+
 
 ## Build Status
 

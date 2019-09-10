@@ -1,4 +1,4 @@
-package ua.syt0r.furiganit.app.serviceManager.useCase
+package ua.syt0r.furiganit.model.usecase
 
 interface OverlayDrawabilityCheckUseCase {
     fun canDrawOverlay(): Boolean

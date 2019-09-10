@@ -1,4 +1,4 @@
-package ua.syt0r.furiganit.model.repository.hisotry.firestore
+package ua.syt0r.furiganit.model.repository.hisotry.remote
 
 import io.reactivex.Completable
 import io.reactivex.Single

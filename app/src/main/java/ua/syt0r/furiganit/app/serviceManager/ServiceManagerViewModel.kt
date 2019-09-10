@@ -1,8 +1,8 @@
 package ua.syt0r.furiganit.app.serviceManager
 
 import androidx.lifecycle.*
-import ua.syt0r.furiganit.app.serviceManager.useCase.OverlayDrawabilityCheckUseCase
-import ua.syt0r.furiganit.app.serviceManager.useCase.ServiceManagerStateMapperUseCase
+import ua.syt0r.furiganit.model.usecase.OverlayDrawabilityCheckUseCase
+import ua.syt0r.furiganit.model.usecase.ServiceManagerStateMapperUseCase
 import ua.syt0r.furiganit.model.repository.status.ServiceState
 import ua.syt0r.furiganit.model.repository.status.ServiceStateRepository
 
