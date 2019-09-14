@@ -6,8 +6,8 @@ android:
   - android-29
 
 before_install:
-  - openssl aes-256-cbc -K $encrypted_b92ca53806ca_key -iv $encrypted_b92ca53806ca_iv -in key_store.jks.enc -out key_store.jks -d
-  - openssl aes-256-cbc -K $encrypted_b92ca53806ca_key -iv $encrypted_b92ca53806ca_iv -in license_key.xml.enc -out app/src/main/res/values/license_key.xml -d
+  - openssl aes-256-cbc -K $key -iv $iv -in key_store.jks.enc -out key_store.jks -d
+  - openssl aes-256-cbc -K $key -iv $iv -in license_key.xml.enc -out app/src/main/res/values/license_key.xml -d
 
 script:
   - ./gradlew build
