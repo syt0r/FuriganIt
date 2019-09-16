@@ -1,11 +1,14 @@
 package ua.syt0r.furiganit.model.usecase.implementation
 
+import android.app.Activity
 import android.content.Context
 import com.android.billingclient.api.*
 import io.reactivex.*
 import io.reactivex.subjects.BehaviorSubject
 import ua.syt0r.furiganit.model.usecase.BillingUseCase
 import java.lang.Exception
+import java.lang.IllegalStateException
+import java.lang.ref.WeakReference
 
 class BillingUseCaseImpl(context: Context) : BillingUseCase,
         BillingClientStateListener,
@@ -22,6 +25,10 @@ class BillingUseCaseImpl(context: Context) : BillingUseCase,
 
     private val availabilityBehaviourSubject = BehaviorSubject.create<Boolean>()
 
+    private var activityReference: WeakReference<Activity>? = null
+
+    // Billing Use Case Implementation
+
     override fun connect() {
         if (!isConnecting) {
             isConnecting = true
@@ -31,21 +38,30 @@ class BillingUseCaseImpl(context: Context) : BillingUseCase,
 
     override fun disconnect() = billingClient.endConnection()
 
-
     override fun isAvailable() = availabilityBehaviourSubject
 
     override fun purchase() = Completable.create { emitter ->
 
         loadSkuDetails().flatMapCompletable { skuDetails ->
             Completable.fromRunnable {
-                val flowParams = BillingFlowParams.newBuilder()
-                        .setSkuDetails(skuDetails)
-                        .build()
-                //val responseCode = billingClient.launchBillingFlow(activity, flowParams)
+
+                val activity = activityReference?.get()
+                if (activity == null)
+                    emitter.onError(IllegalStateException("Activity Not Injected"))
+                else {
+                    val flowParams = BillingFlowParams.newBuilder()
+                            .setSkuDetails(skuDetails)
+                            .build()
+                    val responseCode = billingClient.launchBillingFlow(activity, flowParams)
+                }
+
+
             }
-        }
+        }.subscribe(emitter::onComplete, emitter::onError)
 
     }
+
+    // Billing library callbacks
 
     override fun onBillingSetupFinished(billingResult: BillingResult?) {
         isConnecting = false
@@ -62,6 +78,12 @@ class BillingUseCaseImpl(context: Context) : BillingUseCase,
         purchases?.getOrNull(0)?.also { purchase ->
             consumePurchase(purchase.purchaseToken)
         }
+    }
+
+    // Custom helper functions
+
+    fun injectActivity(activity: Activity) {
+        activityReference = WeakReference(activity)
     }
 
     private fun loadSkuDetails() = Single.create<SkuDetails> { emitter ->

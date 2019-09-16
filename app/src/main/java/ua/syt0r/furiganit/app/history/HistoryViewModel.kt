@@ -7,6 +7,7 @@ import io.reactivex.schedulers.Schedulers
 import ua.syt0r.furiganit.model.entity.HistoryItem
 import ua.syt0r.furiganit.model.repository.hisotry.remote.RemoteHistoryRepository
 import ua.syt0r.furiganit.model.repository.hisotry.local.LocalHistoryRepository
+import ua.syt0r.furiganit.model.repository.hisotry.remote.SyncAction
 import ua.syt0r.furiganit.utils.SingleLiveEvent
 
 class HistoryViewModel(
@@ -36,7 +37,7 @@ class HistoryViewModel(
     }
 
     fun sync() {
-        remoteHistoryRepository.sync(mutableHistory.value ?: listOf())
+        remoteHistoryRepository.sync(mutableHistory.value ?: listOf(), SyncAction.MERGE)
     }
 
 

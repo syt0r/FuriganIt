@@ -1,45 +1,42 @@
 package ua.syt0r.furiganit.app.about
 
+import android.app.Activity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import ua.syt0r.furiganit.model.usecase.BillingUseCase
 import ua.syt0r.furiganit.utils.SingleLiveEvent
 
-class AboutViewModel(private val billingUseCase: BillingUseCase) : ViewModel() {
+class AboutViewModel(private val billingManager: BillingManager) : ViewModel() {
 
     private val mutableBillingAvailability = MutableLiveData<Boolean>()
     private val mutableMessage = SingleLiveEvent<String>()
 
     private val compositeDisposable = CompositeDisposable()
 
+    init { billingManager.connect() }
+
     fun checkBillingAvailability() {
 
-        billingUseCase.connect()
-
-        val disposable = billingUseCase.isAvailable()
+        val disposable = billingManager.checkBillingAvailability()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { mutableBillingAvailability.value = it },
-                        { error -> mutableMessage.value = error.message ?: "Error" }
-                )
+                .subscribe { mutableBillingAvailability.value = it }
 
         compositeDisposable.add(disposable)
 
     }
 
-    fun purchase() {
+    fun purchase(activity: Activity) {
 
-        val disposable = billingUseCase.purchase()
+        val disposable = billingManager.purchase(activity)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { mutableMessage.value = "Thank you for support!" },
-                        { error -> mutableMessage.value = error.message ?: "Error" }
+                        { mutableMessage.value = "Success" },
+                        { mutableMessage.value = "Error: $it"}
                 )
 
         compositeDisposable.add(disposable)
@@ -49,7 +46,7 @@ class AboutViewModel(private val billingUseCase: BillingUseCase) : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.dispose()
-        billingUseCase.disconnect()
+        billingManager.disconnect()
     }
 
     fun subscribeOnBillingAvailability(): LiveData<Boolean> = mutableBillingAvailability

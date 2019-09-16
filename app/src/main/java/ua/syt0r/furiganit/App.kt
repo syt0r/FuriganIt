@@ -6,6 +6,7 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import ua.syt0r.furiganit.app.about.AboutViewModel
+import ua.syt0r.furiganit.app.about.BillingManager
 import ua.syt0r.furiganit.model.usecase.implementation.BillingUseCaseImpl
 import ua.syt0r.furiganit.model.usecase.BillingUseCase
 import ua.syt0r.furiganit.app.furigana.FuriganaViewModel
@@ -48,19 +49,33 @@ class App : Application() {
 
     private val viewModelModule = module {
 
-        viewModel { AboutViewModel(get()) }
         viewModel { HistoryViewModel(get(), get()) }
         viewModel { ServiceManagerViewModel(get(), get(), get()) }
         viewModel { FuriganaViewModel(get()) }
 
     }
 
+    private val aboutModule = module {
+
+        single { BillingManager(get()) }
+        viewModel { AboutViewModel(get()) }
+
+    }
+
+
     override fun onCreate() {
         super.onCreate()
 
         startKoin {
             androidContext(this@App)
-            modules(listOf(repositoryModule, useCaseModule, viewModelModule))
+            modules(
+                    listOf(
+                            repositoryModule,
+                            useCaseModule,
+                            viewModelModule,
+                            aboutModule
+                    )
+            )
         }
 
     }

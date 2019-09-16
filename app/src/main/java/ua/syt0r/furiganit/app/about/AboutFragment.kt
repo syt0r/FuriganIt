@@ -9,12 +9,15 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ua.syt0r.furiganit.R
+import ua.syt0r.furiganit.model.usecase.BillingUseCase
 
 class AboutFragment : Fragment() {
 
     private val aboutViewModel: AboutViewModel by viewModel()
+    private val billingUseCase: BillingUseCase by inject()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.fragment_about, container, false)
@@ -28,7 +31,9 @@ class AboutFragment : Fragment() {
             startActivity(browserIntent)
         }
 
-        root.findViewById<View>(R.id.support_button).setOnClickListener { aboutViewModel.purchase() }
+        root.findViewById<View>(R.id.support_button).setOnClickListener {
+            aboutViewModel.purchase(requireActivity())
+        }
 
         aboutViewModel.subscribeOnBillingAvailability().observe(this, Observer { isAvailable ->
 
@@ -47,5 +52,6 @@ class AboutFragment : Fragment() {
 
         return root
     }
+
 
 }

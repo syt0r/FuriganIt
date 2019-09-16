@@ -20,9 +20,13 @@ class RemoteHistoryRepositoryImpl(
     }
 
     //TODO compare local and remote storage data by update time
-    //TODO allow user to select one of actions: merge, overwrite local or remote data storage
+    //TODO allow user to select one of actions: merge, overwrite local or remote data storage3
 
-    override fun sync(history: List<HistoryItem>) = Completable.create{ emitter ->
+    override fun checkRemoteRepo(): Single<SyncAction> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun sync(history: List<HistoryItem>, syncAction: SyncAction) = Completable.create{ emitter ->
 
         firestore.collection(HISTORY_COLLECTION).document("").get()
 
