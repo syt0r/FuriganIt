@@ -1,10 +1,10 @@
 package ua.syt0r.furiganit.model.repository.user
 
 import android.content.Context
-import android.service.autofill.UserData
 import com.google.gson.Gson
 import io.reactivex.Completable
 import io.reactivex.Single
+import ua.syt0r.furiganit.model.entity.UserData
 
 class SharedPreferencesUserRepository(context: Context) : UserRepository {
 

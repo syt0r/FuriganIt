@@ -11,6 +11,8 @@ import java.lang.Exception
 
 class BillingManager(context: Context) : BillingClientStateListener, PurchasesUpdatedListener {
 
+    //TODO subscribe on purchase through onPurchaseUpdated method
+
     private val billingClient = BillingClient.newBuilder(context)
             .setListener(this)
             .enablePendingPurchases()
@@ -18,6 +20,8 @@ class BillingManager(context: Context) : BillingClientStateListener, PurchasesUp
 
     private val availabilityBehaviourSubject = BehaviorSubject.create<Boolean>()
 
+
+    // Public interface
 
     fun purchase(activity: Activity) = Completable.create { emitter ->
 

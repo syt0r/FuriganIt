@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ua.syt0r.furiganit.R
 
@@ -61,6 +62,10 @@ class HistoryFragment : Fragment() {
 
         })
 
+        historyViewModel.subscribeOnError().observe(this, Observer { errorText ->
+            Snackbar.make(root, errorText, Snackbar.LENGTH_SHORT).show()
+        })
+
         historyViewModel.fetchHistory()
 
         return root
@@ -74,7 +79,7 @@ class HistoryFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         if (item.itemId == R.id.sync) {
-            historyViewModel.sync()
+            // historyViewModel.sync()
             return true
         }
 

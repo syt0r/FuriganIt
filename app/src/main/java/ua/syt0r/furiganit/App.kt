@@ -7,8 +7,6 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import ua.syt0r.furiganit.app.about.AboutViewModel
 import ua.syt0r.furiganit.app.about.BillingManager
-import ua.syt0r.furiganit.model.usecase.implementation.BillingUseCaseImpl
-import ua.syt0r.furiganit.model.usecase.BillingUseCase
 import ua.syt0r.furiganit.app.furigana.FuriganaViewModel
 import ua.syt0r.furiganit.app.history.HistoryViewModel
 import ua.syt0r.furiganit.model.usecase.implementation.OverlayDrawabilityCheckUseCaseImpl
@@ -24,6 +22,8 @@ import ua.syt0r.furiganit.model.repository.overlay.OverlayDataRepository
 import ua.syt0r.furiganit.model.repository.status.ServiceStateRepository
 import ua.syt0r.furiganit.model.repository.user.SharedPreferencesUserRepository
 import ua.syt0r.furiganit.model.repository.user.UserRepository
+import ua.syt0r.furiganit.model.usecase.TextLocalizerUseCase
+import ua.syt0r.furiganit.model.usecase.implementation.TextLocalizerUseCaseImpl
 
 class App : Application() {
 
@@ -41,7 +41,7 @@ class App : Application() {
 
     private val useCaseModule = module {
 
-        factory<BillingUseCase> { BillingUseCaseImpl(get()) }
+        single<TextLocalizerUseCase> { TextLocalizerUseCaseImpl(get()) }
         factory<OverlayDrawabilityCheckUseCase> { OverlayDrawabilityCheckUseCaseImpl(get()) }
         factory<ServiceManagerStateMapperUseCase> { ServiceManagerStateMapperUseCaseImpl() }
 
@@ -49,7 +49,7 @@ class App : Application() {
 
     private val viewModelModule = module {
 
-        viewModel { HistoryViewModel(get(), get()) }
+        viewModel { HistoryViewModel(get(), get(), get()) }
         viewModel { ServiceManagerViewModel(get(), get(), get()) }
         viewModel { FuriganaViewModel(get()) }
 

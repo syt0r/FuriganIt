@@ -67,4 +67,6 @@
     <string name="copied_data_not_supported">Copied data is not supported</string>
     <string name="no_memory">Not enough memory to load dictionary</string>
 
+    <string name="error">Error</string>
+
 </resources>
