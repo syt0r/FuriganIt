@@ -1,4 +1,4 @@
-package ua.syt0r.furiganit.model.repository.user
+package ua.syt0r.furiganit.model.repository.userData
 
 import android.content.Context
 import com.google.gson.Gson
@@ -6,7 +6,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import ua.syt0r.furiganit.model.entity.UserData
 
-class SharedPreferencesUserRepository(context: Context) : UserRepository {
+class UserDataRepositoryImpl(context: Context) : UserDataRepository {
 
     private val sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
 

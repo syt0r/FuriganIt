@@ -16,16 +16,23 @@ android {
         versionName "1.2"
     }
 
+    signingConfigs {
+        release
+    }
+
     buildTypes {
+
         debug {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'),
                     'proguard-rules.pro', 'proguard-rules-debug.pro'
         }
+
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
     }
 
     packagingOptions {
@@ -33,11 +40,12 @@ android {
         exclude 'META-INF/LICENSE.md'
     }
 
-    def isRunningOnTravis = System.getenv("CI") == "true"
     compileOptions {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
+
+    def isRunningOnTravis = System.getenv("CI") == "true"
 
     if (isRunningOnTravis) {
         signingConfigs.release.storeFile = file("key_store.jks")

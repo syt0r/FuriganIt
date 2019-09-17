@@ -1,93 +1,59 @@
 package ua.syt0r.furiganit.app.settings
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.FirebaseApp
-import com.google.firebase.auth.FirebaseAuth
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ua.syt0r.furiganit.R
 
 class SettingsFragment : PreferenceFragmentCompat() {
 
-    private lateinit var signInPreference: Preference
-    private lateinit var signOutPreference: Preference
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        FirebaseApp.initializeApp(context)
-    }
+    private val settingsViewModel: SettingsViewModel by viewModel()
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
-        signInPreference = findPreference(getString(R.string.sign_in))!!
-        signOutPreference = findPreference(getString(R.string.sign_out))!!
+        val signInPreference: Preference = findPreference(getString(R.string.preference_key_sign_in))!!
+        val signOutPreference: Preference = findPreference(getString(R.string.preference_key_sign_out))!!
 
         signInPreference.setOnPreferenceClickListener {
-
-            startActivityForResult(
-                    AuthUI.getInstance()
-                            .createSignInIntentBuilder()
-                            .setAvailableProviders(
-                                    listOf(AuthUI.IdpConfig.GoogleBuilder().build())
-                            )
-                            .build(),
-                    RC_SIGN_IN
-            )
-
+            settingsViewModel.signIn(requireActivity())
             true
         }
 
         signOutPreference.setOnPreferenceClickListener {
-
-            AuthUI.getInstance().signOut(requireContext())
-            updateAccountInfo()
-
+            settingsViewModel.signOut(requireContext())
             true
         }
 
-        updateAccountInfo()
+        settingsViewModel.isSignedIn().observe(this, Observer { user ->
+
+            if (user != null) {
+                signInPreference.title = user.displayName
+                signInPreference.isSelectable = false
+                signOutPreference.isVisible = true
+            } else {
+                signInPreference.title = getString(R.string.sign_in)
+                signInPreference.isSelectable = true
+                signOutPreference.isVisible = false
+            }
+
+        })
+
+        settingsViewModel.subscribeOnError().observe(this, Observer {
+            Snackbar.make(view!!, it, Snackbar.LENGTH_SHORT).show()
+        })
 
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        if (requestCode == RC_SIGN_IN) {
-
-            val response = IdpResponse.fromResultIntent(data)
-
-            if (resultCode == Activity.RESULT_OK) {
-                updateAccountInfo()
-            } else {
-                Snackbar.make(view!!, "Error", Snackbar.LENGTH_SHORT).show()
-            }
-        }
-
+        settingsViewModel.processActivityResult(requestCode, resultCode, data)
     }
 
-    private fun updateAccountInfo() {
-
-        val user = FirebaseAuth.getInstance().currentUser
-
-        if (user != null) {
-            signInPreference.title = user.displayName
-            signOutPreference.isVisible = true
-        } else {
-            signOutPreference.isVisible = false
-        }
-
-
-    }
-
-    companion object {
-        private const val RC_SIGN_IN = 198
-    }
 
 }

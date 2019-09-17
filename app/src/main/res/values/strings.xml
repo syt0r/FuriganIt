@@ -21,8 +21,6 @@
     <string name="starting">Starting service</string>
     <string name="starting_hint">Wait a moment until dictionary is fully loaded into memory</string>
 
-    <string name="loading">Loading...</string>
-
     <string name="service_is_running">Service is running</string>
     <string name="cancel">Cancel</string>
     <string name="wait">Please, wait a moment</string>
@@ -38,10 +36,12 @@
     <string name="appearance">Appearance</string>
     <string name="account">Account</string>
 
-    <string name="save">Save</string>
-    <string name="popup_disappear_time">Pop-up window disappear time (seconds)</string>
-    <string name="reset_popup_position">Reset pop-up window position</string>
-    <string name="apply_changes">To apply changes restart service</string>
+    <string name="overlay_disappear_time">Overlay disappear time (sec.)</string>
+    <string name="reset_overlay_position">Reset overlay window position</string>
+
+    <string name="sign_in">Sign In</string>
+    <string name="sign_in_error">Sign In failed. Try again</string>
+    <string name="sign_out">Sign Out</string>
 
     <!-- About Fragment  -->
 
@@ -59,13 +59,10 @@
     <string name="like_app">Enjoy application?</string>
     <string name="support_dev">Support developer</string>
 
-    <string name="bill_not_ready">Please wait, billing not ready yet</string>
     <string name="thanks">Thanks for support</string>
-    <string name="bill_error">Billing error occurred</string>
 
     <!-- Service  -->
 
-    <string name="copied_data_not_supported">Copied data is not supported</string>
     <string name="no_memory">Not enough memory to load dictionary</string>
 
     <string name="error">Error</string>

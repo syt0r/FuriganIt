@@ -10,8 +10,7 @@
 		android:layout_gravity="center" />
 
 	<TextView
-		android:id="@+id/no_content_message"
-		android:layout_width="match_parent"
+        android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_gravity="center"
 		android:gravity="center"

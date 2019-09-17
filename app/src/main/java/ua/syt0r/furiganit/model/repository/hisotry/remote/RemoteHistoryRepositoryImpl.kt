@@ -6,10 +6,10 @@ import io.reactivex.Single
 import ua.syt0r.furiganit.model.entity.HistoryItem
 import ua.syt0r.furiganit.model.entity.UserData
 import ua.syt0r.furiganit.model.repository.hisotry.local.LocalHistoryRepository
-import ua.syt0r.furiganit.model.repository.user.UserRepository
+import ua.syt0r.furiganit.model.repository.userData.UserDataRepository
 
 class RemoteHistoryRepositoryImpl(
-        private val userRepository: UserRepository,
+        private val userDataRepository: UserDataRepository,
         private val localHistoryRepository: LocalHistoryRepository
 ) : RemoteHistoryRepository {
 
@@ -28,7 +28,7 @@ class RemoteHistoryRepositoryImpl(
 
     override fun sync(history: List<HistoryItem>, syncAction: SyncAction): Completable {
 
-        return userRepository.getUserData()
+        return userDataRepository.getUserData()
                 .flatMapCompletable { userData -> Completable.fromRunnable {
 
                         val userId = userData.user

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="timeout" translatable="false">timeout</string>
-    <string name="overlay_pos" translatable="false">overlay_pos</string>
-    <string name="sign_in" translatable="false">sign_in</string>
-    <string name="sign_out" translatable="false">sign_out</string>
+    <string name="preference_key_timeout" translatable="false">timeout</string>
+    <string name="preference_key_overlay_pos" translatable="false">overlay_pos</string>
+    <string name="preference_key_sign_in" translatable="false">sign_in</string>
+    <string name="preference_key_sign_out" translatable="false">sign_out</string>
 </resources>

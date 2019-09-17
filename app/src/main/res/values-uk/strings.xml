@@ -20,8 +20,6 @@
     <string name="starting">Запуск...</string>
     <string name="starting_hint">Зачекайте поки словник не завантажиться в пам\'ять</string>
 
-    <string name="loading">Завантаження...</string>
-
     <string name="service_is_running">Сервіс запущено</string>
     <string name="cancel">Зупинити</string>
     <string name="wait">Зачейкате, будь-ласка</string>
@@ -37,10 +35,12 @@
     <string name="appearance">Вигляд</string>
     <string name="account">Обліковий запис</string>
 
-    <string name="save">Зберегти</string>
-    <string name="popup_disappear_time">Час зникнення спливаючого вікна (сек.)</string>
-    <string name="reset_popup_position">Скинути налаштування позиції спливаючого вікна</string>
-    <string name="apply_changes">Для застосування змін перезапустіть сервіс</string>
+    <string name="overlay_disappear_time">Час зникнення спливаючого вікна(sec.)</string>
+    <string name="reset_overlay_position">Скинути позицію спливаючого вікна</string>
+
+    <string name="sign_in">Увійти</string>
+    <string name="sign_in_error">Помилка входу. Спробуйте ще раз</string>
+    <string name="sign_out">Вийти</string>
 
     <!-- About Fragment  -->
 
@@ -58,13 +58,10 @@
     <string name="like_app">Подобається додаток?</string>
     <string name="support_dev">Підтримай розробника</string>
 
-    <string name="bill_not_ready">Зачекайте, оплати ще не доступна</string>
     <string name="thanks">Дякую за підтримку!!</string>
-    <string name="bill_error">Помилка при створенні покупки</string>
 
     <!-- Service  -->
 
-    <string name="copied_data_not_supported">Дані з буферу обміна не підтримуюьтся</string>
     <string name="no_memory">Недостатньо пам\'яті для завантаження словника</string>
 
     <string name="error">Помилка</string>

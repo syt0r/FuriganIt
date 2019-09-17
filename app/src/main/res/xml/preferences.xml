@@ -6,16 +6,16 @@
 		app:title="@string/appearance">
 
 		<SeekBarPreference
-			app:key="@string/timeout"
-			app:title="Overlay disappear time (sec.)"
+			app:key="@string/preference_key_timeout"
+			app:title="@string/overlay_disappear_time"
 			app:showSeekBarValue="true"
 			app:defaultValue="5"
 			app:min="1"
 			android:max="10"/>
 
 		<Preference
-			app:key="@string/overlay_pos"
-			app:title="Reset overlay position"/>
+			app:key="@string/preference_key_overlay_pos"
+			app:title="@string/reset_overlay_position"/>
 
 	</PreferenceCategory>
 
@@ -23,13 +23,14 @@
 		app:title="@string/account">
 
 		<Preference
-			app:key="@string/sign_in"
-			app:title="Sign In"
+			app:key="@string/preference_key_sign_in"
+			app:title="@string/sign_in"
 			android:summary="Synchronize history across multiple devices using Google Play account"/>
 
 		<Preference
-			app:key="@string/sign_out"
-			app:title="Sign Out"/>
+			app:key="@string/preference_key_sign_out"
+			app:title="@string/sign_out"
+			app:isPreferenceVisible="false"/>
 
 	</PreferenceCategory>
 

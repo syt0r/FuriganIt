@@ -20,8 +20,6 @@
     <string name="starting">Запуск...</string>
     <string name="starting_hint">Подождите пока словарь не зугрузится в память</string>
 
-    <string name="loading">Загрузка...</string>
-
     <string name="service_is_running">Сервис запущен</string>
     <string name="cancel">Остановить</string>
     <string name="wait">Подождите, пожалуйста</string>
@@ -37,10 +35,12 @@
     <string name="appearance">Вид</string>
     <string name="account">Учетная запись</string>
 
-    <string name="save">Сохранить</string>
-    <string name="popup_disappear_time">Время исчезновения всплывающего окна (сек.)</string>
-    <string name="reset_popup_position">Сбросить настройки позиции всплывающего окна</string>
-    <string name="apply_changes">Для применения изменений перезагрузите сервис</string>
+    <string name="overlay_disappear_time">Время исчезновения всплывающего окна(сек.)</string>
+    <string name="reset_overlay_position">Сбросить позицию всплывающего окна</string>
+
+    <string name="sign_in">Войти</string>
+    <string name="sign_in_error">Ошибка входа. Попробуйте еще раз</string>
+    <string name="sign_out">Выйти</string>
 
     <!-- About Fragment  -->
 
@@ -58,13 +58,10 @@
     <string name="like_app">Нравится приложение?</string>
     <string name="support_dev">Поддержи разработчика</string>
 
-    <string name="bill_not_ready">Подождите, оплата еще не доступна</string>
     <string name="thanks">Спасибо за поддержку!!</string>
-    <string name="bill_error">Ошибка при покупке</string>
 
     <!-- Service  -->
 
-    <string name="copied_data_not_supported">Данные из буфера обмену не поддерживаются</string>
     <string name="no_memory">Недостаточно памяти для загрузки словаря</string>
 
     <string name="error">Ошибка</string>
