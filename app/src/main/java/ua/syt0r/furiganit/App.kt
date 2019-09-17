@@ -58,7 +58,7 @@ class App : Application() {
     private val aboutModule = module {
 
         single { BillingManager(get()) }
-        viewModel { AboutViewModel(get()) }
+        viewModel { AboutViewModel(get(), get()) }
 
     }
 

@@ -7,9 +7,14 @@ import androidx.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import ua.syt0r.furiganit.R
+import ua.syt0r.furiganit.model.usecase.TextLocalizerUseCase
 import ua.syt0r.furiganit.utils.SingleLiveEvent
 
-class AboutViewModel(private val billingManager: BillingManager) : ViewModel() {
+class AboutViewModel(
+        private val billingManager: BillingManager,
+        private val textLocalizer: TextLocalizerUseCase
+) : ViewModel() {
 
     private val mutableBillingAvailability = MutableLiveData<Boolean>()
     private val mutableMessage = SingleLiveEvent<String>()
@@ -35,8 +40,8 @@ class AboutViewModel(private val billingManager: BillingManager) : ViewModel() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { mutableMessage.value = "Success" },
-                        { mutableMessage.value = "Error: $it"}
+                        { mutableMessage.value = textLocalizer.getMessage(R.string.thanks) },
+                        { mutableMessage.value = textLocalizer.getErrorMessage(it.message) }
                 )
 
         compositeDisposable.add(disposable)

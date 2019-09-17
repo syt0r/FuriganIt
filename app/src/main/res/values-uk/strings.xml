@@ -1,29 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">FuriganIt</string>
-    <string name="apply_changes">Щоб застосувати зміни перезапустіть сервіс</string>
-    <string name="about_content">Використовуйте з обережністю(додаток використовує тестовий словник ipadic)\nДодаток використовує наступні бібліотеки:kuromoji-core, kuromoji-ipadic та Android In-App Billing v3 Library\nПро мене: навчаюсь комп\'ютерним наукам, початківець з японської мови</string>
-    <string name="about_title">FuriganIt від syt0r</string>
-    <string name="bill_error">Виникла помилка оплати</string>
-    <string name="bill_not_ready">Зачекайте, будь-ласка, функція оплати ще завантажується</string>
-    <string name="cancel">Закрити</string>
-    <string name="copied_data_not_supported">Скопійовані дані не підтримуються</string>
-    <string name="go_to_settings">Перейти до налаштувань</string>
-    <string name="got_to_sett_hint">Для використання додатку дозвольте йому відображатись над іншими додатками</string>
-    <string name="like_app">Подобається додаток?</string>
-    <string name="loading">Завантаження...</string>
-    <string name="popup_disappear_time">Час зникнення спливаючого вікна (секунди)</string>
-    <string name="reset_popup_position">Повернути позицію спливачого вікна до початкової позиції</string>
-    <string name="save">Зберегти</string>
-    <string name="service_is_running">Сервіс запущено</string>
-    <string name="start">Старт</string>
-    <string name="stop">Стоп</string>
-    <string name="stop_hint">Зупинити сервіс</string>
-    <string name="start_hint">Запустити сервіс</string>
-    <string name="support_dev">Підтримай розробника</string>
-    <string name="thanks">Дякую за підтримку</string>
-    <string name="wait">Зачекайте будь ласка</string>
-    <string name="about">Про додаток</string>
+
+    <!-- Menu  -->
+
     <string name="settings">Налаштування</string>
+    <string name="about">Про програму</string>
+
+    <!-- Service Manager Fragment  -->
+
+    <string name="go_to_settings">Перейти до Налаштувань</string>
+    <string name="got_to_sett_hint">Для використання додатку надайте дозвіл для його відображення над іншими програмами</string>
+
+    <string name="stop">Зупинити</string>
+    <string name="stop_hint">Зупинити фоновий сервіс</string>
+
+    <string name="start">Запустити</string>
+    <string name="start_hint">Почати слухати зміни буферу обміну</string>
+
+    <string name="starting">Запуск...</string>
+    <string name="starting_hint">Зачекайте поки словник не завантажиться в пам\'ять</string>
+
+    <string name="loading">Завантаження...</string>
+
+    <string name="service_is_running">Сервіс запущено</string>
+    <string name="cancel">Зупинити</string>
+    <string name="wait">Зачейкате, будь-ласка</string>
+
+    <!-- History Fragment  -->
+
+    <string name="history">Історія</string>
+    <string name="no_content_message">Історія порожня. Нові записи з\'являться після використання додатку</string>
+    <string name="sync">Синхронізувати</string>
+
+    <!-- Settings Fragment  -->
+
+    <string name="appearance">Вигляд</string>
+    <string name="account">Обліковий запис</string>
+
+    <string name="save">Зберегти</string>
+    <string name="popup_disappear_time">Час зникнення спливаючого вікна (сек.)</string>
+    <string name="reset_popup_position">Скинути налаштування позиції спливаючого вікна</string>
+    <string name="apply_changes">Для застосування змін перезапустіть сервіс</string>
+
+    <!-- About Fragment  -->
+
+    <string name="about_title">FuriganIt від syt0r</string>
+    <string name="about_content">Отримуйте читання канджі в будь-якому додатку скопіювавши текст, інтернет з\'єднання не портібно</string>
+
+    <string name="how_to_use">Використання</string>
+    <string name="how_to_use_guide">
+        КРОК 1. Запустіть сервіс. Запус займає деякий час бо додаток завантажує великий словник в пам\'ять пристрою. Якщо ваш пристрій не має достатньо пам\'яті виникне помилка\n\nКРОК 2. Скопіюйте будь-який тест щоб отримати читання канджі. Кожного разу як ви будете копіювати текст виникатиме спливаюче вікно, натиснувши на яке скопійований текст буде обробленийt\n\nКРОК 3. Звільніть ресурси вашого пристрою зупинивши сервіс всередині додатку або ж кнопкою в сповіщенні
+    </string>
+
+    <string name="source_code">Вихідний код</string>
+    <string name="here">тут</string>
+
+    <string name="like_app">Подобається додаток?</string>
+    <string name="support_dev">Підтримай розробника</string>
+
+    <string name="bill_not_ready">Зачекайте, оплати ще не доступна</string>
+    <string name="thanks">Дякую за підтримку!!</string>
+    <string name="bill_error">Помилка при створенні покупки</string>
+
+    <!-- Service  -->
+
+    <string name="copied_data_not_supported">Дані з буферу обміна не підтримуюьтся</string>
     <string name="no_memory">Недостатньо пам\'яті для завантаження словника</string>
+
+    <string name="error">Помилка</string>
+
 </resources>

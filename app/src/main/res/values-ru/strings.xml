@@ -1,29 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">FuriganIt</string>
-    <string name="about">О приложении</string>
-    <string name="about_content">Используйте с осторожностью (приложение использует тестовый словарь ipadic) \nПриложение использует следующие библиотеки: kuromoji-core, kuromoji-ipadic и Android In-App Billing v3 Library \nОбо мне: учусь компьютерным наукам, начинающий по японскому языку</string>
-    <string name="about_title">FuriganIt от syt0r</string>
-    <string name="apply_changes">Чтобы применить изменения перезапустите сервис</string>
-    <string name="bill_error">Возникла ошибка оплаты</string>
-    <string name="bill_not_ready">Подождите, пожалуйста, функция оплаты еще загружается</string>
-    <string name="cancel">Закрыть</string>
-    <string name="copied_data_not_supported">Скопированые данные не поддерживаются</string>
-    <string name="go_to_settings">Перейти к настройкам</string>
-    <string name="got_to_sett_hint">Для использования приложения позвольте ему отображаться над другими приложениями</string>
-    <string name="like_app">Нравится приложение?</string>
-    <string name="loading">Загрузка ...</string>
-    <string name="popup_disappear_time">Время исчезновения всплывающего окна (секунды)</string>
-    <string name="reset_popup_position">Вернуть расположение всплывающего окна в начальную позицию</string>
-    <string name="save">Сохранить</string>
-    <string name="service_is_running">Сервис запущен</string>
+
+    <!-- Menu  -->
+
     <string name="settings">Настройки</string>
-    <string name="start">Старт</string>
-    <string name="start_hint">Запустить сервис</string>
-    <string name="stop">Стоп</string>
-    <string name="stop_hint">Остановить сервис</string>
+    <string name="about">О приложении</string>
+
+    <!-- Service Manager Fragment  -->
+
+    <string name="go_to_settings">В настройки</string>
+    <string name="got_to_sett_hint">Для использования приложения предоставьте разрешение для его отображения над другими программами</string>
+
+    <string name="stop">Остановить</string>
+    <string name="stop_hint">Остановить фоновый сервис</string>
+
+    <string name="start">Запустить</string>
+    <string name="start_hint">Начать слушать изменения буфера обмена</string>
+
+    <string name="starting">Запуск...</string>
+    <string name="starting_hint">Подождите пока словарь не зугрузится в память</string>
+
+    <string name="loading">Загрузка...</string>
+
+    <string name="service_is_running">Сервис запущен</string>
+    <string name="cancel">Остановить</string>
+    <string name="wait">Подождите, пожалуйста</string>
+
+    <!-- History Fragment  -->
+
+    <string name="history">История</string>
+    <string name="no_content_message">Пустаю история. Новые записи появятся после использования приложения</string>
+    <string name="sync">Синхронизировать</string>
+
+    <!-- Settings Fragment  -->
+
+    <string name="appearance">Вид</string>
+    <string name="account">Учетная запись</string>
+
+    <string name="save">Сохранить</string>
+    <string name="popup_disappear_time">Время исчезновения всплывающего окна (сек.)</string>
+    <string name="reset_popup_position">Сбросить настройки позиции всплывающего окна</string>
+    <string name="apply_changes">Для применения изменений перезагрузите сервис</string>
+
+    <!-- About Fragment  -->
+
+    <string name="about_title">FuriganIt от syt0r</string>
+    <string name="about_content">Получайте чтения кандзи в любом приложении скопировав текст, интернет соединение не требуется</string>
+
+    <string name="how_to_use">Использование</string>
+    <string name="how_to_use_guide">
+        ШАГ 1. Запустите сервис. Запуск занимает некоторое время так как приложение загружает большой словарь в память устройства. Если устройство не имеет достаточно памяти возникнет ошибка\n\nШАГ 2. Скопируйте любой тест чтобы получить чтения кандзи. Каждый раз когда вы будете копировать текст будет появлятся всплывающее окно, нажав на которое скопированный текст будет обработан\n\nШАГ 3. Освободите ресурсы устройства остановив сервис внутри приложения или кнопкой внутри уведомления
+    </string>
+
+    <string name="source_code">Исходный код</string>
+    <string name="here">тут</string>
+
+    <string name="like_app">Нравится приложение?</string>
     <string name="support_dev">Поддержи разработчика</string>
-    <string name="thanks">Спасибо за поддержку</string>
-    <string name="wait">Пожалуйста, подождите</string>
+
+    <string name="bill_not_ready">Подождите, оплата еще не доступна</string>
+    <string name="thanks">Спасибо за поддержку!!</string>
+    <string name="bill_error">Ошибка при покупке</string>
+
+    <!-- Service  -->
+
+    <string name="copied_data_not_supported">Данные из буфера обмену не поддерживаются</string>
     <string name="no_memory">Недостаточно памяти для загрузки словаря</string>
+
+    <string name="error">Ошибка</string>
+
 </resources>

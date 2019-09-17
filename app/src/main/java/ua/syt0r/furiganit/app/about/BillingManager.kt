@@ -7,6 +7,7 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import java.lang.Exception
 
 class BillingManager(context: Context) : BillingClientStateListener, PurchasesUpdatedListener {
@@ -19,6 +20,7 @@ class BillingManager(context: Context) : BillingClientStateListener, PurchasesUp
             .build()
 
     private val availabilityBehaviourSubject = BehaviorSubject.create<Boolean>()
+    private val purchaseSubject = PublishSubject.create<Boolean>()
 
 
     // Public interface

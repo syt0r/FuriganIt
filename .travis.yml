@@ -10,7 +10,7 @@ before_install:
   - openssl aes-256-cbc -K $key -iv $iv -in license_key.xml.enc -out app/src/main/res/values/license_key.xml -d
 
 script:
-  - ./gradlew build
+  - ./gradlew build test
 
 # deploy:
 #   provider: releases
