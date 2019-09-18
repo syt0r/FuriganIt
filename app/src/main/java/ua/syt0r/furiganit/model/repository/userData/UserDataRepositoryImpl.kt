@@ -11,12 +11,15 @@ class UserDataRepositoryImpl(context: Context) : UserDataRepository {
     private val sharedPreferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
 
     override fun saveUserData(userData: UserData) = Completable.create { emitter ->
-        sharedPreferences.edit().putString("user_data", Gson().toJson(userData))
+        sharedPreferences.edit().putString(USER_DATA_KEY, Gson().toJson(userData))
         emitter.onComplete()
     }
 
-    override fun getUserData(): Single<UserData> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getUserData() = Single.fromCallable<UserData> {
+        Gson().fromJson(
+                sharedPreferences.getString(USER_DATA_KEY, ""),
+                UserData::class.java
+        )
     }
 
     override fun clearUserData(): Completable {
@@ -25,6 +28,7 @@ class UserDataRepositoryImpl(context: Context) : UserDataRepository {
 
     companion object {
         private const val PREF_NAME = "user_data"
+        private const val USER_DATA_KEY = "user_data"
     }
 
 }

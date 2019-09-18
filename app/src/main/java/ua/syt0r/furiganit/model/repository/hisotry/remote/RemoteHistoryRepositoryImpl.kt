@@ -23,7 +23,7 @@ class RemoteHistoryRepositoryImpl(
     }
 
     override fun checkRemoteRepo() = Single.create<RepoState> { emitter ->
-        emitter.onSuccess(RepoState.OUTDATED)
+        emitter.onSuccess(RepoState.DIFFERENT)
     }
 
     override fun sync(history: List<HistoryItem>, syncAction: SyncAction): Completable {
