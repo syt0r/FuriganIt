@@ -1,5 +1,5 @@
 package ua.syt0r.furiganit.model.usecase
 
-interface OverlayDrawabilityCheckUseCase {
+interface OverlayDrawabilityChecker {
     fun canDrawOverlay(): Boolean
 }

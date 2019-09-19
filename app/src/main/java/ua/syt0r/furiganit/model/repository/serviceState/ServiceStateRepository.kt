@@ -1,4 +1,4 @@
-package ua.syt0r.furiganit.model.repository.status
+package ua.syt0r.furiganit.model.repository.serviceState
 
 import android.content.BroadcastReceiver
 import android.content.Context

@@ -11,7 +11,7 @@ import ua.syt0r.furiganit.model.repository.hisotry.local.LocalHistoryRepository
 import ua.syt0r.furiganit.model.repository.hisotry.remote.RepoState
 import ua.syt0r.furiganit.model.repository.hisotry.remote.SyncAction
 import ua.syt0r.furiganit.model.repository.hisotry.remote.SyncState
-import ua.syt0r.furiganit.model.usecase.TextLocalizerUseCase
+import ua.syt0r.furiganit.model.usecase.TextLocalizer
 import ua.syt0r.furiganit.utils.SingleLiveEvent
 import java.lang.IllegalStateException
 
@@ -19,7 +19,7 @@ class HistoryViewModel(
         private val localHistoryRepository: LocalHistoryRepository,
         private val remoteHistoryRepository: RemoteHistoryRepository,
         private val firebaseAuth: FirebaseAuth,
-        private val textLocalizerUseCase: TextLocalizerUseCase
+        private val textLocalizer: TextLocalizer
 ) : ViewModel() {
 
     private val mutableHistory = MutableLiveData<List<HistoryItem>>()
@@ -37,7 +37,7 @@ class HistoryViewModel(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { mutableHistory.value = it },
-                        { mutableMessage.value = textLocalizerUseCase.getErrorMessage(it.message) }
+                        { mutableMessage.value = textLocalizer.getErrorMessage(it.message) }
                 )
 
         compositeDisposable.add(disposable)
@@ -66,7 +66,7 @@ class HistoryViewModel(
                                 null -> throw IllegalStateException("Unknown repoState")
                             }
                         },
-                        { mutableMessage.value = textLocalizerUseCase.getErrorMessage(it.message) }
+                        { mutableMessage.value = textLocalizer.getErrorMessage(it.message) }
                 )
 
         compositeDisposable.add(disposable)
@@ -90,7 +90,7 @@ class HistoryViewModel(
                 }
                 .subscribe(
                         {  },
-                        { mutableMessage.value = textLocalizerUseCase.getErrorMessage(it.message) }
+                        { mutableMessage.value = textLocalizer.getErrorMessage(it.message) }
                 )
 
         compositeDisposable.add(disposable)

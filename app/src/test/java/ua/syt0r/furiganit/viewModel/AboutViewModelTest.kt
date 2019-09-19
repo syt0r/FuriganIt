@@ -6,12 +6,12 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import ua.syt0r.furiganit.app.about.AboutViewModel
 import ua.syt0r.furiganit.app.about.BillingManager
-import ua.syt0r.furiganit.model.usecase.TextLocalizerUseCase
+import ua.syt0r.furiganit.model.usecase.TextLocalizer
 
 class AboutViewModelTest {
 
     @Mock lateinit var billingManager: BillingManager
-    @Mock lateinit var textLocalizer: TextLocalizerUseCase
+    @Mock lateinit var textLocalizer: TextLocalizer
 
     lateinit var aboutViewModel: AboutViewModel
 

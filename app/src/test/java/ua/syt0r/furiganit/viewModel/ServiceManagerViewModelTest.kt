@@ -12,10 +12,10 @@ import org.mockito.MockitoAnnotations
 import ua.syt0r.furiganit.app.serviceManager.ServiceManagerState
 import ua.syt0r.furiganit.app.serviceManager.ServiceManagerViewModel
 import ua.syt0r.furiganit.mock
-import ua.syt0r.furiganit.model.repository.status.ServiceState
-import ua.syt0r.furiganit.model.repository.status.ServiceStateRepository
-import ua.syt0r.furiganit.model.usecase.OverlayDrawabilityCheckUseCase
-import ua.syt0r.furiganit.model.usecase.implementation.ServiceManagerStateMapperUseCaseImpl
+import ua.syt0r.furiganit.model.repository.serviceState.ServiceState
+import ua.syt0r.furiganit.model.repository.serviceState.ServiceStateRepository
+import ua.syt0r.furiganit.model.usecase.OverlayDrawabilityChecker
+import ua.syt0r.furiganit.model.usecase.implementation.ServiceManagerStateMapperImpl
 
 class ServiceManagerViewModelTest {
 
@@ -23,8 +23,8 @@ class ServiceManagerViewModelTest {
     val rule = InstantTaskExecutorRule()
 
     @Mock lateinit var serviceStateRepository: ServiceStateRepository
-    @Mock lateinit var overlayDrawChecker: OverlayDrawabilityCheckUseCase
-    val serviceStateMapper = ServiceManagerStateMapperUseCaseImpl()
+    @Mock lateinit var overlayDrawChecker: OverlayDrawabilityChecker
+    val serviceStateMapper = ServiceManagerStateMapperImpl()
 
     lateinit var mutableServiceState: MutableLiveData<ServiceState>
 

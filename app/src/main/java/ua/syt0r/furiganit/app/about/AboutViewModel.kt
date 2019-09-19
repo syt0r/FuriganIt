@@ -8,12 +8,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import ua.syt0r.furiganit.R
-import ua.syt0r.furiganit.model.usecase.TextLocalizerUseCase
+import ua.syt0r.furiganit.model.usecase.TextLocalizer
 import ua.syt0r.furiganit.utils.SingleLiveEvent
 
 class AboutViewModel(
         private val billingManager: BillingManager,
-        private val textLocalizer: TextLocalizerUseCase
+        private val textLocalizer: TextLocalizer
 ) : ViewModel() {
 
     private val mutableBillingAvailability = MutableLiveData<Boolean>()

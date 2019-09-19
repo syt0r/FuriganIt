@@ -7,23 +7,24 @@ import androidx.room.Query
 import io.reactivex.Completable
 import io.reactivex.Flowable
 import ua.syt0r.furiganit.model.entity.HistoryItem
+import ua.syt0r.furiganit.model.repository.hisotry.local.LocalHistoryItem
 
 @Dao
 interface HistoryDao {
 
     @Insert
-    fun add(item: HistoryItem): Completable
+    fun add(item: LocalHistoryItem): Completable
 
     @Insert
-    fun addAll(history: List<HistoryItem>): Completable
+    fun addAll(history: List<LocalHistoryItem>): Completable
 
     @Delete
-    fun remove(item: HistoryItem): Completable
+    fun remove(item: LocalHistoryItem): Completable
 
-    @Query("DELETE FROM historyitem")
+    @Query("DELETE FROM history_items")
     fun removeAll(): Completable
 
-    @Query("SELECT * FROM historyitem")
-    fun fetchHistory(): Flowable<List<HistoryItem>>
+    @Query("SELECT * FROM history_items")
+    fun fetchHistory(): Flowable<List<LocalHistoryItem>>
 
 }

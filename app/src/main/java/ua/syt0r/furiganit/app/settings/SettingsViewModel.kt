@@ -7,17 +7,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.firebase.ui.auth.AuthUI
-import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import ua.syt0r.furiganit.R
-import ua.syt0r.furiganit.model.usecase.TextLocalizerUseCase
+import ua.syt0r.furiganit.model.usecase.TextLocalizer
 import ua.syt0r.furiganit.utils.SingleLiveEvent
 
 class SettingsViewModel(
         private val firebaseAuth: FirebaseAuth,
         private val authUI: AuthUI,
-        private val textLocalizer: TextLocalizerUseCase
+        private val textLocalizer: TextLocalizer
 ) : ViewModel() {
 
     private val isSignedIn = MutableLiveData<FirebaseUser>()

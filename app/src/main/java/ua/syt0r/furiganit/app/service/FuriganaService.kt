@@ -11,8 +11,8 @@ import android.view.View
 import android.widget.Toast
 import com.atilika.kuromoji.ipadic.Tokenizer
 import ua.syt0r.furiganit.R
-import ua.syt0r.furiganit.model.repository.status.ServiceState
-import ua.syt0r.furiganit.model.repository.status.ServiceStateRepository
+import ua.syt0r.furiganit.model.repository.serviceState.ServiceState
+import ua.syt0r.furiganit.model.repository.serviceState.ServiceStateRepository
 import ua.syt0r.furiganit.app.furigana.FuriganaActivity
 import ua.syt0r.furiganit.utils.getTextWithFurigana
 

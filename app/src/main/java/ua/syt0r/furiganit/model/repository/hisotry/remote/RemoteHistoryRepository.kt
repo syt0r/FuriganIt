@@ -6,7 +6,6 @@ import ua.syt0r.furiganit.model.entity.HistoryItem
 import ua.syt0r.furiganit.model.entity.UserData
 
 interface RemoteHistoryRepository {
-    fun createUser(): Single<UserData>
     fun checkRemoteRepo(): Single<RepoState>
     fun sync(history: List<HistoryItem>, syncAction: SyncAction): Completable
 }
