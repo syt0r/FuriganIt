@@ -1,27 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	android:id="@+id/nav_graph"
-	app:startDestination="@id/service_manager_fragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/service_manager_fragment">
 
-	<fragment
-		android:name="ua.syt0r.furiganit.app.serviceManager.ServiceManagerFragment"
-		android:label="@string/app_name"
-		android:id="@+id/service_manager_fragment"/>
+    <fragment
+        android:id="@+id/service_manager_fragment"
+        android:name="ua.syt0r.furiganit.app.main.screens.service_manager.ServiceManagerFragment"
+        android:label="@string/app_name" />
 
-	<fragment
-		android:name="ua.syt0r.furiganit.app.history.HistoryFragment"
-		android:label="@string/history"
-		android:id="@+id/history_fragment"/>
+    <fragment
+        android:id="@+id/settings_fragment"
+        android:name="ua.syt0r.furiganit.app.main.screens.settings.SettingsFragment"
+        android:label="@string/settings" />
 
-	<fragment
-		android:name="ua.syt0r.furiganit.app.settings.SettingsFragment"
-		android:label="@string/app_name"
-		android:id="@+id/settings_fragment"/>
-
-	<fragment
-		android:name="ua.syt0r.furiganit.app.about.AboutFragment"
-		android:label="@string/about"
-		android:id="@+id/about_fragment"/>
+    <fragment
+        android:id="@+id/about_fragment"
+        android:name="ua.syt0r.furiganit.app.main.screens.about.AboutFragment"
+        android:label="@string/about" />
 
 </navigation>
