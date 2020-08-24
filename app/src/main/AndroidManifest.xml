@@ -3,7 +3,6 @@
     package="ua.syt0r.furiganit">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:name=".core.application.FuraginaApp"
@@ -23,8 +22,18 @@
         <activity
             android:name=".app.furigana.FuriganaActivity"
             android:excludeFromRecents="true"
-            android:launchMode="singleTask"
-            android:theme="@style/AppTheme.Transparent" />
+            android:label="@string/furigana_activity_label"
+            android:launchMode="singleInstance"
+            android:taskAffinity=""
+            android:theme="@style/AppTheme.Transparent">
+
+            <intent-filter>
+                <action android:name="android.intent.action.PROCESS_TEXT" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+
+        </activity>
 
         <service
             android:name=".core.service.FuriganaService"

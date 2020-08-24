@@ -13,9 +13,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 import org.koin.android.ext.android.inject
-import ua.syt0r.furiganit.core.clipboard.ClipboardHandler
 import ua.syt0r.furiganit.core.notification_manager.CustomNotificationManager
-import ua.syt0r.furiganit.core.notification_manager.notification.ServiceNotification
+import ua.syt0r.furiganit.core.service.notification.ServiceRunningNotification
+import ua.syt0r.furiganit.core.service.notification.ServiceStartingNotification
 import ua.syt0r.furiganit.core.tokenizer.TokenizerWrapper
 
 class FuriganaService : Service() {
@@ -50,8 +50,6 @@ class FuriganaService : Service() {
 
     private val tokenizerWrapper by inject<TokenizerWrapper>()
 
-    private val clipboardHandler by inject<ClipboardHandler>()
-
     private val serviceJob = Job()
     private val serviceScope = CoroutineScope(Dispatchers.Main + serviceJob)
 
@@ -67,21 +65,25 @@ class FuriganaService : Service() {
         when (intent?.action) {
             STOP_SERVICE_ACTION -> stopSelf()
             else -> initializeTokenizer()
-                    .flowOn(Dispatchers.IO)
-                    .onStart {
-                        val notification = notificationManager.createNotification(
-                                ServiceNotification.getConfiguration(this@FuriganaService)
-                        )
-                        startForeground(SERVICE_NOTIFICATION_ID, notification)
-                        serviceStateObservable.setState(ServiceState.LAUNCHING)
-                    }
-                    .onEach {
-                        serviceStateObservable.setState(ServiceState.RUNNING)
-                        clipboardHandler.setListener {
-                            Log.d(this.javaClass.simpleName, "onPrimaryClipChanged")
-                        }
-                    }
-                    .launchIn(serviceScope)
+                .flowOn(Dispatchers.IO)
+                .onStart {
+                    val notification = notificationManager.createNotification(
+                        ServiceStartingNotification.getConfiguration(this@FuriganaService)
+                    )
+                    startForeground(SERVICE_NOTIFICATION_ID, notification)
+                    serviceStateObservable.setState(ServiceState.LAUNCHING)
+                }
+                .catch {
+                    stopSelf()
+                }
+                .onEach {
+                    serviceStateObservable.setState(ServiceState.RUNNING)
+                    notificationManager.showNotification(
+                        notificationId = SERVICE_NOTIFICATION_ID,
+                        notificationConfig = ServiceRunningNotification.getConfiguration(this@FuriganaService)
+                    )
+                }
+                .launchIn(serviceScope)
         }
 
         return START_STICKY

@@ -1,7 +1,10 @@
 package ua.syt0r.furiganit.core.overlay
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.PixelFormat
+import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.view.LayoutInflater
@@ -11,9 +14,9 @@ import java.lang.ref.WeakReference
 import java.util.concurrent.TimeUnit
 
 class OverlayManager(
-        private val context: Context,
-        private val windowManager: WindowManager,
-        private val overlayDataRepository: OverlayDataRepository
+    private val context: Context,
+    private val windowManager: WindowManager,
+    private val overlayDataRepository: OverlayDataRepository
 ) {
 
     companion object {
@@ -28,6 +31,16 @@ class OverlayManager(
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             Settings.canDrawOverlays(context)
         else true
+    }
+
+    fun requestDrawOverlayPermission(activity: Activity) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            val intent = Intent(
+                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:" + activity.packageName)
+            )
+            activity.startActivityForResult(intent, 0)
+        }
     }
 
     fun showOverlay(@LayoutRes layoutResId: Int) {
@@ -56,11 +69,12 @@ class OverlayManager(
         }
 
         val params = WindowManager.LayoutParams(
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                layoutFlags,
-                WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                PixelFormat.TRANSLUCENT)
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            layoutFlags,
+            WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+            PixelFormat.TRANSLUCENT
+        )
 
         val position = overlayDataRepository.position
 

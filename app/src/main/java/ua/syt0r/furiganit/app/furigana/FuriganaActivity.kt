@@ -17,7 +17,12 @@ class FuriganaActivity : AppCompatActivity() {
         private const val ENCODING = "utf-8"
 
         fun startActivityIntent(context: Context): PendingIntent {
-            return PendingIntent.getActivity(context, 0, Intent(context, FuriganaActivity::class.java), 0)
+            return PendingIntent.getActivity(
+                context,
+                0,
+                Intent(context, FuriganaActivity::class.java),
+                0
+            )
         }
 
     }

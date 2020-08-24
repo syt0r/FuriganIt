@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import kotlinx.android.synthetic.main.activity_main.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import ua.syt0r.furiganit.R
 
 class MainActivity : AppCompatActivity() {
+
+    private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,6 +22,8 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(it.itemId)
             true
         }
+
+        viewModel.tryToShowReviewFlow(this)
     }
 
 }

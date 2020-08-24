@@ -35,7 +35,7 @@
                 android:background="?selectableItemBackground"
                 android:minHeight="0dp"
                 android:padding="5dp"
-                android:text="@string/cancel"
+                android:text="@string/furigana_activity_cancel"
                 android:textColor="#fff" />
 
         </LinearLayout>

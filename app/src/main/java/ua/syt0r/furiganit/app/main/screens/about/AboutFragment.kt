@@ -1,7 +1,5 @@
 package ua.syt0r.furiganit.app.main.screens.about
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,18 +11,22 @@ import ua.syt0r.furiganit.R
 
 class AboutFragment : Fragment() {
 
-    private val aboutViewModel: AboutViewModel by viewModel()
+    private val viewModel: AboutViewModel by viewModel()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val root = inflater.inflate(R.layout.fragment_about, container, false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_about, container, false)
+    }
 
-        source_code_button.setOnClickListener {
-            val browserIntent = Intent(Intent.ACTION_VIEW,
-                    Uri.parse("https://github.com/SYtor/FuriganIt"))
-            startActivity(browserIntent)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        sourceCodeButton.setOnClickListener {
+            viewModel.openSourceCodeWebPage(requireActivity())
         }
-
-        return root
     }
 
 }

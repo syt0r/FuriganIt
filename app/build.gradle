@@ -6,13 +6,13 @@ apply plugin: 'kotlin-android-extensions'
 android {
 
     compileSdkVersion 30
-    buildToolsVersion "30.0.1"
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "ua.syt0r.furiganit"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 5
+        versionCode 6
         versionName "1.2"
     }
 
@@ -39,14 +39,6 @@ android {
         targetCompatibility = 1.8
     }
 
-    def isRunningOnTravis = System.getenv("CI") == "true"
-    if (isRunningOnTravis) {
-        signingConfigs.release.storeFile = file("key_store.jks")
-        signingConfigs.release.storePassword = System.getenv("keystore_password")
-        signingConfigs.release.keyAlias = System.getenv("keystore_alias")
-        signingConfigs.release.keyPassword = System.getenv("keystore_alias_password")
-    }
-
 }
 
 dependencies {
@@ -68,4 +60,6 @@ dependencies {
 
     implementation files('libs/kuromoji-core-1.0-SNAPSHOT.jar')
     implementation files('libs/kuromoji-ipadic-1.0-SNAPSHOT.jar')
+
+    implementation 'com.google.android.play:core-ktx:1.8.1'
 }

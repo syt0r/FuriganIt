@@ -8,12 +8,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
+import ua.syt0r.furiganit.core.app_data.AppDataRepository
 import ua.syt0r.furiganit.core.clipboard.ClipboardHandler
 import ua.syt0r.furiganit.core.tokenizer.TokenizerWrapper
 
 class FuriganaViewModel(
-        private val clipboardHandler: ClipboardHandler,
-        private val tokenizerWrapper: TokenizerWrapper
+    private val clipboardHandler: ClipboardHandler,
+    private val tokenizerWrapper: TokenizerWrapper,
+    private val appDataRepository: AppDataRepository
 ) : ViewModel() {
 
     enum class ErrorReason {
@@ -36,10 +38,10 @@ class FuriganaViewModel(
             applyFinalState(japaneseText)
         } else {
             initializeTokenizer()
-                    .flowOn(Dispatchers.IO)
-                    .catch { state.value = State.Error(ErrorReason.TOKENIZER_INIT_FAILURE) }
-                    .onEach { applyFinalState(japaneseText) }
-                    .launchIn(viewModelScope)
+                .flowOn(Dispatchers.IO)
+                .catch { state.value = State.Error(ErrorReason.TOKENIZER_INIT_FAILURE) }
+                .onEach { applyFinalState(japaneseText) }
+                .launchIn(viewModelScope)
         }
     }
 
@@ -48,7 +50,7 @@ class FuriganaViewModel(
     private fun getJapaneseText(intent: Intent): String? {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             intent.getStringExtra(Intent.EXTRA_PROCESS_TEXT)
-                    ?: clipboardHandler.getClipboardText()
+                ?: clipboardHandler.getClipboardText()
         } else {
             clipboardHandler.getClipboardText()
         }
@@ -59,6 +61,7 @@ class FuriganaViewModel(
             japaneseText.isNullOrEmpty() -> State.Error(ErrorReason.CANT_GET_TEXT)
             else -> {
                 val furigana = tokenizerWrapper.getFuriganaHtml(japaneseText)
+                appDataRepository.furiganizedTextsCountSinceReview++
                 State.Loaded(furigana)
             }
         }

@@ -5,5 +5,5 @@ import org.koin.dsl.module
 import ua.syt0r.furiganit.app.main.screens.service_manager.ServiceManagerViewModel
 
 val serviceManagerScreenModule = module {
-    viewModel { ServiceManagerViewModel(get(), get()) }
+    viewModel { ServiceManagerViewModel(get()) }
 }

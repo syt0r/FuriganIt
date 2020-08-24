@@ -19,4 +19,9 @@
         android:name="ua.syt0r.furiganit.app.main.screens.about.AboutFragment"
         android:label="@string/about" />
 
+    <action
+        android:id="@+id/to_about_fragment"
+        app:destination="@id/about_fragment"
+        app:launchSingleTop="true" />
+
 </navigation>

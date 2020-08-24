@@ -7,7 +7,3 @@ build/
 /captures
 .externalNativeBuild
 release/
-
-google-services.json
-license_key.xml
-key_store.jks

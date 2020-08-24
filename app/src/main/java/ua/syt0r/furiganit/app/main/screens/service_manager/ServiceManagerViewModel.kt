@@ -6,8 +6,7 @@ import ua.syt0r.furiganit.core.service.ServiceState
 import ua.syt0r.furiganit.core.service.ServiceStateObservable
 
 class ServiceManagerViewModel(
-        private val serviceStatusObservable: ServiceStateObservable,
-        private val overlayManager: OverlayManager
+    private val serviceStatusObservable: ServiceStateObservable
 ) : ViewModel(), LifecycleObserver {
 
     private val mutableState = MediatorLiveData<ServiceManagerState>()
@@ -25,10 +24,9 @@ class ServiceManagerViewModel(
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     private fun updateState() {
         val serviceState = serviceStatusObservable.subscribeToStateChanges().value
-                ?: ServiceState.STOPPED
+            ?: ServiceState.STOPPED
 
-        val canDrawOverlay = overlayManager.canDrawOverlay()
-        mutableState.value = serviceState.toServiceManagerState(canDrawOverlay)
+        mutableState.value = serviceState.toServiceManagerState()
     }
 
     fun subscribeOnServiceState(): LiveData<ServiceManagerState> {
