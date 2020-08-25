@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_furigana.*
@@ -42,7 +43,7 @@ class FuriganaActivity : AppCompatActivity() {
                     webView.loadData(state.html, MIME_TYPE, ENCODING)
                 }
                 is FuriganaViewModel.State.Error -> {
-
+                    Toast.makeText(this, "Error: " + state.reason, Toast.LENGTH_LONG).show()
                 }
             }
         })

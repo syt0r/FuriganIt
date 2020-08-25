@@ -32,14 +32,16 @@
     <!-- About Fragment  -->
 
     <string name="about_title">FuriganIt by syt0r</string>
-    <string name="about_content">Get kanji reading by copying text in any application, no internet connection required</string>
+    <string name="about_content">Get kanji reading from any japanese text in any application, no internet connection required</string>
 
     <string name="how_to_use">How to use</string>
-    <string name="how_to_use_1">
+    <string name="how_to_use_1_title">First Way</string>
+    <string name="how_to_use_1_message">
         1. Start service from application - notification will appear\n2. Copy any text you want and click on button inside notification
     </string>
 
-    <string name="how_to_use_2">
+    <string name="how_to_use_2_title">Second Way</string>
+    <string name="how_to_use_2_message">
         1. Select japanese text\n2. Select \"Get Furigana\" option
     </string>
 

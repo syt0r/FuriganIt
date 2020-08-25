@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
+import android.widget.Toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -74,6 +75,7 @@ class FuriganaService : Service() {
                     serviceStateObservable.setState(ServiceState.LAUNCHING)
                 }
                 .catch {
+                    Toast.makeText(this@FuriganaService, "Error: " + it.message, Toast.LENGTH_LONG).show()
                     stopSelf()
                 }
                 .onEach {

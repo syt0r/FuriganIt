@@ -48,3 +48,5 @@
 -dontwarn android.arch.**
 
 -keep class ua.syt0r.** { *; }
+
+-keep class com.atilika.kuromoji.ipadic.** { *; }
